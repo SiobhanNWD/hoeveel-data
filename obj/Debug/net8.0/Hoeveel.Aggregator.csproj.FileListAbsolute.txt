@@ -1,0 +1,14 @@
+C:\Users\SiobhanButler\Hoeveel.Aggregator\bin\Debug\net8.0\Hoeveel.Aggregator.exe
+C:\Users\SiobhanButler\Hoeveel.Aggregator\bin\Debug\net8.0\Hoeveel.Aggregator.deps.json
+C:\Users\SiobhanButler\Hoeveel.Aggregator\bin\Debug\net8.0\Hoeveel.Aggregator.runtimeconfig.json
+C:\Users\SiobhanButler\Hoeveel.Aggregator\bin\Debug\net8.0\Hoeveel.Aggregator.dll
+C:\Users\SiobhanButler\Hoeveel.Aggregator\bin\Debug\net8.0\Hoeveel.Aggregator.pdb
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.AssemblyInfoInputs.cache
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.AssemblyInfo.cs
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.csproj.CoreCompileInputs.cache
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.dll
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\refint\Hoeveel.Aggregator.dll
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.pdb
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\Hoeveel.Aggregator.genruntimeconfig.cache
+C:\Users\SiobhanButler\Hoeveel.Aggregator\obj\Debug\net8.0\ref\Hoeveel.Aggregator.dll
