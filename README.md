@@ -13,6 +13,11 @@
 - REST Client (Huachao Mao)
 
 ===============================================================
+                        File Structure
+===============================================================
+//config files used so that they dont have to be hardcoded later
+
+===============================================================
                      Data Entity Structure
 ===============================================================
 This project aggregates official public finance and population data into a hierarchical structure that mirrors South Africa’s system of government.
@@ -77,3 +82,13 @@ The system aggregates financial and population data bottom-up.
 6. Compute UIFW as unauthorised + irregular + fruitless
 7. Determine governing party at each level from aggregated votes
 8. Output aggregated results as structured JSON
+
+===============================================================
+                         Basic Logic
+===============================================================
+1. Download raw csv (**UifwSourceDownloader**)
+2. Load CSV into rows (**CsvLoader**)
+3. Map to source objects (**UifwSourceMapper**)
+4. Aggregate (**UifwAggregator**)
+5. Write JSON (**data/stored/*.json**)
+6. Commit to GitHub (**Nightly via GitHub Actions later**)
