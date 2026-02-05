@@ -29,7 +29,7 @@ Represents South Africa as a whole.
 - `string` **name** – Country name (e.g. South Africa)
 - `string` **code** – National code (currently ZA)
 - `int` **population** – Total national population
-- `decimal` **unauthorized** – Total reported unauthorised expenditure
+- `decimal` **unauthorised** – Total reported unauthorised expenditure
 - `decimal` **irregular** – Total reported irregular expenditure
 - `decimal` **fruitless** – Total reported fruitless & wasteful expenditure
 - `decimal` **uifw** – Sum of unauthorised + irregular + fruitless expenditure
@@ -42,7 +42,7 @@ Represents a South African province.
 - `string` **name** – Province name (e.g. Gauteng)
 - `string` **code** – Province code (e.g. GP)
 - `int` **population** – Total provincial population
-- `decimal` **unauthorized** – Total reported unauthorised expenditure
+- `decimal` **unauthorised** – Total reported unauthorised expenditure
 - `decimal` **irregular** – Total reported irregular expenditure
 - `decimal` **fruitless** – Total reported fruitless & wasteful expenditure
 - `decimal` **uifw** – Sum of unauthorised + irregular + fruitless expenditure
@@ -56,7 +56,7 @@ Represents a local or metropolitan municipality.
 - `string` **code** – Municipality code (e.g. JHB, BUF)
 - `string` **type** – Municipality type (Metro / Local / District)
 - `int` **population** – Total municipal population
-- `decimal` **unauthorized** – Reported unauthorised expenditure
+- `decimal` **unauthorised** – Reported unauthorised expenditure
 - `decimal` **irregular** – Reported irregular expenditure
 - `decimal` **fruitless** – Reported fruitless & wasteful expenditure
 - `decimal` **uifw** – Sum of unauthorised + irregular + fruitless expenditure
