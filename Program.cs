@@ -1,3 +1,41 @@
+using System;
+using System.Net.Http;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace Hoeveel.Aggregator
+{
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            // Define the URLs for downloading
+            string censusMuniUrl = "https://raw.githubusercontent.com/afrith/census-2022-muni-sats/main/person-indicators-muni.csv";
+            string censusProvUrl = "https://raw.githubusercontent.com/afrith/census-2022-muni-sats/main/person-indicators-province.csv";
+
+            string outputPathMuni = "data/raw/census-municipality_2022.csv";
+            string outputPathProv = "data/raw/census-province_2022.csv";
+
+            // Validate URLs and output paths
+            if (string.IsNullOrEmpty(outputPathMuni) || string.IsNullOrEmpty(outputPathProv))
+            {
+                Console.WriteLine("Invalid file paths provided. Exiting.");
+                return;
+            }
+
+            // Download the files
+            Console.WriteLine("Downloading census municipality CSV...");
+            await CsvSourceDownloader.DownloadAsync(censusMuniUrl, outputPathMuni);
+
+            Console.WriteLine("Downloading census province CSV...");
+            await CsvSourceDownloader.DownloadAsync(censusProvUrl, outputPathProv);
+        }
+    }
+}
+
+
+
+/*
 using Hoeveel.Aggregator.Loaders;
 using Hoeveel.Aggregator.Models.Raw;   // TreasuryFactsResponse, UifwFactsRow
 using Hoeveel.Aggregator.Builders;
@@ -46,3 +84,4 @@ foreach (var m in municipalities.Take(3))
         $"UIFW={m.Uifw}"
     );
 }
+*/

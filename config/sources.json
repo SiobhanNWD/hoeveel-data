@@ -6,7 +6,19 @@
     "cube": "uifwexp",
     "endpoint": "facts",
     "year": 2022,
-    "pageSize" : 10000,
+    "pageSize": 10000,
     "format": "json"
+  },
+  "census-prov": {
+    "type": "csv-url",
+    "filePath": "data/raw/census-province_2022.csv",
+    "url": "https://raw.githubusercontent.com/afrith/census-2022-muni-stats/main/output/person-indicators-province.csv",
+    "format": "csv"
+  },
+  "census-muni": {
+    "type": "csv-url",
+    "filePath": "data/raw/census-muni_2022.csv",
+    "url": "https://raw.githubusercontent.com/afrith/census-2022-muni-stats/refs/heads/main/person-indicators-muni.csv",
+    "format": "csv"
   }
 }

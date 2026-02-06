@@ -12,11 +12,37 @@ public static class CsvSourceDownloader
     public static async Task DownloadAsync(string url, string outputPath)
     {
         using var httpClient = new HttpClient();    //creates an HTTP client for making web requests. 'using' ensures it's disposed correctly after use
-
+    
         var csvData = await httpClient.GetStringAsync(url);     //Downloads the CSV file as a string from the given URL. 'await' pauses execution until the download completes
 
         Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);      //Ensures the target folder (outputPath) exists, if not it throws DirectoryNotFoundException
 
         File.WriteAllText(outputPath, csvData); //Writes the downloaded CSV string to disk at the given path
     }
+
+    public static async Task DownloadAsyncStream(string url, string outputPath)
+    {
+        if (string.IsNullOrEmpty(outputPath))
+        {
+            throw new ArgumentNullException(nameof(outputPath), "The output path cannot be null or empty.");
+        }
+
+        using (var httpClient = new HttpClient())
+        {
+            // Download the CSV file as a stream
+            var stream = await httpClient.GetStreamAsync(url);  // GetStreamAsync is better for large files
+
+            // Create the output directory if it doesn't exist
+            Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+
+            // Write the stream to the file
+            using (var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
+            {
+                await stream.CopyToAsync(fileStream);  // Copy the stream to the file
+            }
+
+            Console.WriteLine($"File downloaded to: {outputPath}");
+        }
+    }
+
 }
