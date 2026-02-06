@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Hoeveel.Aggregator.Models.Raw;
 
-public class UifwFactsRow
+public class UifwRow
 {
     [JsonPropertyName("demarcation.code")]
     public string DemarcationCode { get; set; } = "";

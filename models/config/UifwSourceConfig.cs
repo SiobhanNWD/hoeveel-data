@@ -11,8 +11,8 @@ public class UifwSourceConfig
     public string Format { get; set; } = "";
     public int PageSize { get; set; } = 10000;
 
-    // Builds the UIFW facts URL from config:
+    // Builds the UIFW URL from config/sources.json:
     // https://municipaldata.treasury.gov.za/api/cubes/uifwexp/facts?cut=financial_year_end.year:2022&pagesize=10000&format=json
-    public string BuildFactsUrl()
+    public string BuildUrl()
         => $"{BaseUrl}/cubes/{Cube}/{Endpoint}?cut=financial_year_end.year:{Year}&pagesize={PageSize}&format={Format}";
 }

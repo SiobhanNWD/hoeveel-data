@@ -5,60 +5,37 @@ namespace Hoeveel.Aggregator.Builders;
 
 public static class MunicipalityBuilder
 {
-    // Builds municipalities from UIFW facts rows (2022 only)
-    public static List<Municipality> BuildFromUifwFacts(
-        List<UifwFactsRow> facts)
+    // Builds one Municipality per demarcation code from raw UIFW fact rows
+    public static List<Municipality> BuildFromUifw(TreasuryFactsResponse<UifwRow> facts)
     {
-        // Step 1: Group all UIFW facts by municipality code
-        var groupedByMunicipality = facts
-            .GroupBy(f => f.DemarcationCode);
-
-        var municipalities = new List<Municipality>();
-
-        // Step 2: Build one Municipality per demarcation code
-        foreach (var municipalityGroup in groupedByMunicipality)
-        {
-            var municipality = new Municipality
+        return facts.Data
+            .Where(r => !string.IsNullOrWhiteSpace(r.DemarcationCode))      // Ignore rows without a municipality code
+            .GroupBy(r => r.DemarcationCode)                                // Group all rows by municipality
+            .Select(group =>                                                 
             {
-                Code = municipalityGroup.Key
-            };
-
-            // Step 3: Create UIFW totals for 2022
-            var yearTotals = new UifwYearTotals
-            {
-                FinancialYear = 2022
-            };
-
-            // Step 4: Sum UIFW amounts by item type
-            foreach (var row in municipalityGroup)
-            {
-                switch (row.ItemCode)
+                var municipality = new Municipality                         // Create one aggregated Municipality per group
                 {
-                    case "unauthorised":
-                        yearTotals.Unauthorised += row.Amount;
-                        break;
+                    Code = group.Key                                        // Here group.Key == group.DemarcationCode, because they were grouped according to DemaractionCode
+                };
 
-                    case "irregular":
-                        yearTotals.Irregular += row.Amount;
-                        break;
-
-                    case "fruitless":
-                        yearTotals.Fruitless += row.Amount;
-                        break;
-
-                    default:
-                        Console.WriteLine(
-                            $"[WARN] MunicipalityBuilder: Unknown ItemCode '{row.ItemCode}'");
-                        break;
+                foreach (var row in group)                                  // Aggregate UIFW amounts by item type
+                {
+                    switch (row.ItemCode?.ToLowerInvariant())    
+                    {           
+                        case "unauthorised":
+                            municipality.Unauthorised += row.Amount;
+                            break;
+                        case "irregular":
+                            municipality.Irregular += row.Amount;
+                            break;
+                        case "fruitless":
+                            municipality.Fruitless += row.Amount;
+                            break;
+                    }
                 }
-            }
 
-            // Step 5: Attach totals to municipality
-            municipality.UifwByYear[2022] = yearTotals;
-
-            municipalities.Add(municipality);
-        }
-
-        return municipalities;
+                return municipality;                                        // Return the municipality object
+            })
+            .ToList();                                                      // Materialise the grouped municipalities into a list
     }
 }

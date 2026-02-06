@@ -1,17 +1,16 @@
-using System.Collections.Generic;
-
 namespace Hoeveel.Aggregator.Models.Stored;
 
 public class Municipality
 {
-    public string Code { get; set; } = "";     // Demarcation code (e.g. "JHB")
-    public string Name { get; set; } = "";     // Filled later
+    public string Code { get; set; } = "";         // Demarcation code (e.g. "BUF")
+    public string Name { get; set; } = "";         // Filled later
     public string ProvinceCode { get; set; } = ""; // Filled later
 
-    // Key = FinancialYear (2022 only for now)
-    public Dictionary<int, UifwYearTotals> UifwByYear { get; set; }
-        = new();
+    public int Population { get; set; }            // Population
 
-    // Temporary placeholder until population source is implemented
-    public int Population { get; set; }
+    public decimal Unauthorised { get; set; }       // Unauthorised Expenditure 
+    public decimal Irregular { get; set; }          // Irregular Expenditure
+    public decimal Fruitless { get; set; }          // Fruitless and Wasteful Expenditure
+    public decimal Uifw                             // Total UIFW for the year
+        => Unauthorised + Irregular + Fruitless;
 }
