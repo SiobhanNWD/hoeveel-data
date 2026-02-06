@@ -1,8 +1,16 @@
-# hoeveel-data
+===============================================================
+                HOEVEEL DATA & AGGREGATOR
+===============================================================
+This project aggregates official South African public finance data
+into a hierarchical structure that mirrors the country’s system of government.
 
-# Please ensure you have .NET 8 SDK installed
+All data is generated programmatically from official CSV and JSON API sources
+and is intended to be stored as structured JSON (one file per financial year).
 
-# Required Exstension (Publisher):
+
+===============================================================
+                    Required Exstensions
+===============================================================
 - .NET Install Tool (Microsoft)
 - C/C++ (Microsoft)
 - C# (Microsoft)
@@ -11,11 +19,83 @@
 - GitHub Pull Requests (GitHub)
 - JSON Tools (Erik Lynd)
 - REST Client (Huachao Mao)
+# Please ensure you have .NET 8 SDK installed
+
 
 ===============================================================
                         File Structure
 ===============================================================
-//config files used so that they dont have to be hardcoded later
+Hoeveel.Aggregator/                                   **Main aggregation service for municipal finance data**
+├─ builders/                                          **Builds stored domain entities from raw data**
+│  ├─ MunicipalityBuilder.cs                          `Creates Municipality entities from UIFW fact rows`
+│  ├─ NationBuilder.cs                                `Builds the Nation entity by aggregating provinces`
+│  └─ ProvinceBuilder.cs                              `Builds Province entities from municipalities`
+│
+├─ config/                                            **Runtime configuration files**
+│  └─ sources.json                                    `Defines external data sources (UIFW API, file paths, years)`
+│
+├─ data/                                              **Local data storage (not source code)**
+│  ├─ raw/                                            **Downloaded source data exactly as received**
+│  │  └─ uifw-facts_2022.json                          `Raw UIFW expenditure facts for 2022 from Treasury API`
+│  │
+│  ├─ stored/                                         **Future output location for processed domain data**
+│  
+├─ depreciated/                                       **Legacy CSV-based data and models (no longer used), aka script graveyard**
+│
+├─ loaders/                                           **Infrastructure for downloading and loading data**
+│  ├─ CsvLoader.cs                                    `Generic CSV file loader (legacy / future use)`
+│  ├─ CsvSourceDownloader.cs                          `Downloads CSV files from remote sources`
+│  ├─ JsonLoader.cs                                   `Generic JSON deserializer from file to typed objects`
+│  ├─ JsonSourceDownloader.cs                         `Downloads JSON files from APIs or URLs`
+│  └─ SourceConfigLoader.cs                           `Loads and parses config/sources.json into typed config`
+│
+├─ mappers/                                           **Legacy row-to-model mappers (CSV era)**
+│
+├─ models/                                            **All strongly-typed data models**
+│  ├─ config/                                         `Typed representations of source configuration`
+│  │  ├─ SourceConfig.cs                              `Root config model mapping sources.json`
+│  │  └─ UifwSourceConfig.cs                          `UIFW-specific source config and URL builders`
+│  │
+│  ├─ raw/                                            **Models that match external source data exactly**
+│  │  ├─ TreasuryFactsResponse.cs                     `Envelope for Treasury /facts API responses`
+│  │  └─ UifwRow.cs                                   `Single UIFW fact row (municipality, item, amount)`
+│  │
+│  └─ stored/                                         **Internal stored domain entities used by the system**
+│     ├─ Municipality.cs                              `Municipality with aggregated UIFW values`
+│     ├─ Nation.cs                                    `National roll-up entity aggregating provinces`
+│     └─ Province.cs                                  `Province entity aggregating municipalities`
+│
+├─ Program.cs                                         `Execution entry point and current integration test harness`
+├─ README.md                                          `Project documentation and architecture overview`
+├─ Hoeveel.Aggregator.csproj                          `C# project definition`
+├─ Hoeveel.Aggregator.sln                             `Visual Studio solution file`
+├─ .gitignore                                         `Ignored files and folders`
+└─ obj/                                               **Build artefacts (generated)**
+
+
+===============================================================
+                    Basic Logic (Planned)
+===============================================================
+0. Build source URL and file path from source.json
+1. Download raw CSV/JSON (**CsvSourceDownloader**/**JsonSourceDownloader**)
+2. Load and deserialize CSV/JSON into strongly typed rows (**CsvLoader**/**CsvLoader**)
+3. Aggregate?
+4. `Map to source objects/ Build objects` (**UifwSourceMapper**/**MunicipalityBuilder**)
+5. Write JSON (**data/stored/*.json**)
+6. Commit to GitHub (**Nightly via GitHub Actions later**)
+
+
+===============================================================
+                    Basic Logic (Current)
+===============================================================
+1. Load source configuration from `sources.json`
+2. Build Treasury API URL from config
+3. Download UIFW facts JSON (JsonSourceDownloader)
+4. Deserialize facts into strongly typed rows (JsonLoader)
+5. Aggregate facts into Municipality entities (MunicipalityBuilder)
+6. (Planned) Aggregate municipalities into provinces and nation
+7. (Planned) Export structured JSON per financial year
+
 
 ===============================================================
                      Data Entity Structure
@@ -23,7 +103,7 @@
 This project aggregates official public finance and population data into a hierarchical structure that mirrors South Africa’s system of government.
 All data is generated programmatically from source CSV files and stored as JSON (one file per financial year).
 
-# National
+# Nation
 Represents South Africa as a whole.
 # Properties:
 - `string` **name** – Country name (e.g. South Africa)
@@ -67,28 +147,3 @@ Represents a local or metropolitan municipality.
 - No new data is created; all values are derived from official public sources
 - Aggregation flows municipality → province → national
 - Raw source files are stored separately from generated outputs
-
-
-===============================================================
-                    Basic Aggregation Logic
-===============================================================
-The system aggregates financial and population data bottom-up.
-
-1. Load raw CSV data for municipalities
-2. Parse and validate financial and population values
-3. Aggregate municipality totals (population, expenditure, UIFW)
-4. Group municipalities by province and sum provincial totals
-5. Aggregate all provinces to calculate national totals
-6. Compute UIFW as unauthorised + irregular + fruitless
-7. Determine governing party at each level from aggregated votes
-8. Output aggregated results as structured JSON
-
-===============================================================
-                         Basic Logic
-===============================================================
-1. Download raw csv (**UifwSourceDownloader**)
-2. Load CSV into rows (**CsvLoader**)
-3. Map to source objects (**UifwSourceMapper**)
-4. Aggregate (**UifwAggregator**)
-5. Write JSON (**data/stored/*.json**)
-6. Commit to GitHub (**Nightly via GitHub Actions later**)

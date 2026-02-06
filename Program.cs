@@ -14,10 +14,10 @@ var uifwOutputPath = uifwSource.FilePath;      // Output file path defined in co
 await JsonSourceDownloader.DownloadAsync(uifwUrl, uifwOutputPath);      // Download UIFW facts JSON to disk
 Console.WriteLine($"UIFW facts downloaded to {uifwOutputPath}");        // Log to confirm download to output path
 
-// 2. Load and deserialize UIFW facts JSON into stringly typed rows (UifwRows)
+// 2. Load and deserialize UIFW facts JSON into strongly typed rows (UifwRows)
 var uifwRows = JsonLoader.Load<TreasuryFactsResponse<UifwRow>>(uifwOutputPath);
 
-// 3. Sanity checks (verify mapping and data shape)
+// 2.1 Sanity checks (verify mapping and data shape)
 Console.WriteLine($"Uifw facts rows loaded: {uifwRows.Data.Count}");
 
 foreach (var row in uifwRows.Data.Take(3))      // Print 5 of the rows for verification purposes
@@ -30,12 +30,12 @@ foreach (var row in uifwRows.Data.Take(3))      // Print 5 of the rows for verif
     );
 }
 
-// 4. Build Municipality aggregates from UIFW facts
+// 3. Build Municipality aggregates from UIFW facts
 var municipalities = MunicipalityBuilder.BuildFromUifw(uifwRows);
 
 Console.WriteLine($"Municipalities built: {municipalities.Count}");
 
-// 5. Sanity check aggregated values
+// 3.1 Sanity check aggregated values
 foreach (var m in municipalities.Take(3))
 {
     Console.WriteLine(
