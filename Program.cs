@@ -1,23 +1,29 @@
-﻿using Hoeveel.Aggregator.Loaders;
-using Hoeveel.Aggregator.Mappers;
-using Hoeveel.Aggregator.Models.Raw;
-using Hoeveel.Aggregator.Aggregators;
+using Hoeveel.Aggregator.Loaders;
+using Hoeveel.Aggregator.Models.Raw;   // TreasuryFactsResponse, UifwFactsRow
 
 var sourceConfig = SourceConfigLoader.Load();
+var uifwSource = sourceConfig.Uifw;
 
-// 1. Download CSV
-await CsvSourceDownloader.DownloadAsync(
-    sourceConfig.uifwSourceUrl,
-    sourceConfig.uifwSourcePath);
+// 1. Download UIFW FACTS (this is where the amounts live)
+var factsUrl = uifwSource.BuildFactsUrl();           // /cubes/uifwexp/facts?cut=...
+var factsOutputPath = uifwSource.FilePath;           // from config/sources.json
 
-// 2. Load CSV → raw rows
-var uifwRows = CsvLoader.Load(
-    sourceConfig.uifwSourcePath,
-    UifwSourceMapper.Map);
+await JsonSourceDownloader.DownloadAsync(factsUrl, factsOutputPath);
+Console.WriteLine($"UIFW facts downloaded to {factsOutputPath}");
 
-// 3. Aggregate
-var aggregated = UifwAggregator.AggregateByMunicipalityAndYear(uifwRows);
+// 2. Load and deserialize UIFW facts JSON
+var factsResponse = JsonLoader.Load<TreasuryFactsResponse<UifwFactsRow>>(factsOutputPath);
 
-// 4. Verify
-Console.WriteLine($"Aggregated {aggregated.Count} municipality-year rows");
 
+// 3. Basic sanity checks (mapping verification)
+Console.WriteLine($"Facts rows loaded: {factsResponse.Data.Count}");
+
+foreach (var row in factsResponse.Data.Take(5))
+{
+    Console.WriteLine(
+        $"Municipality={row.DemarcationCode}, " +
+        $"Year={row.FinancialYear}, " +
+        $"Item={row.ItemCode}, " +
+        $"Amount={row.Amount}"
+    );
+}

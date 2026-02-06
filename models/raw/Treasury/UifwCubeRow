@@ -1,0 +1,8 @@
+namespace Hoeveel.Aggregator.Models.Raw.Cube;
+
+public class UifwCubeRow
+{
+    public string Demarcation { get; set; } = "";
+    public int Financial_Year_End { get; set; }
+    public decimal Amount { get; set; }
+}

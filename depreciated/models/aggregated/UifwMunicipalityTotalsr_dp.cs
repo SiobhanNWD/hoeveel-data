@@ -1,6 +1,6 @@
 namespace Hoeveel.Aggregator.Models.Aggregated;
 
-public class UifwMunicipalityTotals
+public class UifwMunicipalityTotalsr_dp
 {
     public string MunicipalityCode { get; set; } = "";   // Municipality demarcation code, e.g. "JHB", "CPT", "NMA"
     public int FinancialYear { get; set; }               // Financial year the totals apply to, e.g. 2023

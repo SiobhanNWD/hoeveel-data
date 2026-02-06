@@ -10,7 +10,15 @@ public static class SourceConfigLoader
     public static SourceConfig Load(string path = "config/sources.json")
     {
         var json = File.ReadAllText(path);                          // Read the entire JSON config file into a string
-        return JsonSerializer.Deserialize<SourceConfig>(json)!;     // Deserialize the JSON string into a SourceConfig object (The null-forgiving operator (!) is safe here because: this file is required for the app to run so we want it to throw loudly)
+
+        // Use case-insensitive property matching so camelCase JSON (e.g. "uifw", "baseUrl")
+        // correctly maps to PascalCase C# properties (e.g. Uifw, BaseUrl)
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        return JsonSerializer.Deserialize<SourceConfig>(json, options)!;     // Deserialize the JSON string into a SourceConfig object (The null-forgiving operator (!) is safe here because: this file is required for the app to run so we want it to throw loudly)
     }
 }
 

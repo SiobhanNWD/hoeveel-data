@@ -3,7 +3,7 @@ namespace Hoeveel.Aggregator.Models.Raw;
 //This class maps ONE UIFW CSV -> ONE UifwSourceRow Object
 //Csv Format:   demarcation_code,financial_year,item_code,item_label,amount,id"
 
-public class UifwSourceRow
+public class UifwSourceRow_dp
 {
     public string DemarcationCode { get; set; } = "";
     public int FinancialYear { get; set; }

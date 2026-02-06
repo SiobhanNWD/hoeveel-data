@@ -1,7 +1,7 @@
 using Hoeveel.Aggregator.Models.Raw; 
 namespace Hoeveel.Aggregator.Mappers;
 
-public static class UifwSourceMapper
+public static class UifwSourceMapper_dp
 {
     // Map converts ONE CSV row (string[]) into a UifwSourceRow object which is passed into CsvLoader.Load(...)
     public static UifwSourceRow Map(string[] columns)

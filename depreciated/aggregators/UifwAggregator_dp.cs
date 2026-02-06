@@ -3,7 +3,7 @@ using Hoeveel.Aggregator.Models.Aggregated;
 
 namespace Hoeveel.Aggregator.Aggregators;
 
-public static class UifwAggregator
+public static class UifwAggregator_dp
 {
     // Aggregates raw UIFW rows by municipality and financial year
     // Input  : List<UifwSourceRow> (one row per CSV record)

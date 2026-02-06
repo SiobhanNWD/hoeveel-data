@@ -1,5 +1,12 @@
 {
-  "uifwSourceUrl": "https://munimoney-media.s3.eu-west-1.amazonaws.com/munimoney-media/media/bulk_downloads/uifwexp_facts_v1/uifwexp_facts_v1__2023-09-01.csv",
-  "uifwSourcePath": "data/raw/uifw-source_2012-2021.csv",
-  "_uifwSourceFormat": ".csv - 2012 to 2021 - demarcation_code,financial_year,item_code,item_label,amount,id"
+  "uifw": {
+    "type": "json-api",
+    "filePath": "data/raw/uifw-facts_2022.json",
+    "baseUrl": "https://municipaldata.treasury.gov.za/api",
+    "cube": "uifwexp",
+    "endpoint": "facts",
+    "year": 2022,
+    "pageSize" : 10000,
+    "format": "json"
+  }
 }
