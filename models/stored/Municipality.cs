@@ -13,4 +13,11 @@ public class Municipality
     public decimal Fruitless { get; set; }          // Fruitless and Wasteful Expenditure
     public decimal Uifw                             // Total UIFW for the year
         => Unauthorised + Irregular + Fruitless;
+    
+    /// <summary>
+    /// The governing party in this municipality (2021 election results)
+    /// Examples: "ANC", "DA", "EFF", etc.
+    /// Added: 2025-02-09
+    /// </summary>
+    public string GoverningParty { get; set; } = ""; // Governing party from 2021 elections
 }
