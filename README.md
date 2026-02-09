@@ -20,6 +20,8 @@ and is intended to be stored as structured JSON (one file per financial year).
 - JSON Tools (Erik Lynd)
 - REST Client (Huachao Mao)
 # Please ensure you have .NET 8 SDK installed
+Suggested:
+- Better Comments (Aaron Bond)
 
 
 ===============================================================
@@ -71,6 +73,37 @@ Hoeveel.Aggregator/                                   **Main aggregation service
 ├─ Hoeveel.Aggregator.sln                             `Visual Studio solution file`
 ├─ .gitignore                                         `Ignored files and folders`
 └─ obj/                                               **Build artefacts (generated)**
+
+
+===============================================================
+                    Comment Structure
+===============================================================
+# Commenting Methods:
+`//` Describe what the methd does/ purpose. A short summary
+`// Input:` Describe what the input is.
+`// Output:` Describe what the output is
+void MyMethod(int input) {...}
+
+# Code Blocks/ Processes:
+For large or lengthy processes please group the steps with a comment and headers, e.g.: 
+`// ================ HEADER ================`
+`// 1.` Do xyz
+
+# If you have Better Comments Exstension by Aaron Bond:
+// * Imporatant Information
+// ! Warnings
+// ? Questions/ Considerations
+// TODO: Things still to do OR Future features to implement
+// @param for parameters
+
+
+
+===============================================================
+                    Naming Conventions
+===============================================================
+- Properties: Camel Case (e.g. public int WasteAmount {get; set;})
+- Methods: Camel Case (e.g. )
+- Scripts: Camel Case & if Source-specific, add the source name at the beginning (e.g. UifwSourceConfig.cs)
 
 
 ===============================================================
