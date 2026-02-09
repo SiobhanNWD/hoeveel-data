@@ -24,7 +24,8 @@ var censusProvSource = sourceConfig.CensusProv;             // Extract UIFW-spec
 var censusProvUrl = censusProvSource.Url;           // Build the UIFW facts URL from config values
 var censusProvFilePath = censusProvSource.FilePath;      // Output file path defined in config
 
-// TODO Elections: Add the elections source config here 
+var electionsSource = sourceConfig.Elections;             // Extract Elections source configuration
+var electionsFilePath = electionsSource.FilePath;      // Output file path defined in config 
 
 // 2. Download Census and UIFW files to disk
 Console.WriteLine("Downloading uifw JSON...");
@@ -36,7 +37,12 @@ await FileSourceDownloader.DownloadAsync(censusMuniUrl, censusMuniFilePath);
 Console.WriteLine("Downloading census province CSV...");
 await FileSourceDownloader.DownloadAsync(censusProvUrl, censusProvFilePath);
 
-// TODO Elections: Add the elections console print here
+Console.WriteLine("Downloading consolidated elections CSV...");
+if (!File.Exists(electionsFilePath))
+{
+    await ElectionsSourceDownloader.DownloadAndConsolidateAsync(electionsFilePath);
+}
+// TODO Elections: Add the elections console print here (DONE)
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
 Console.WriteLine("Census and UIFW file downloads test complete.");
@@ -52,7 +58,13 @@ Console.ResetColor();
 var uifwRows = JsonLoader.Load<TreasuryFactsResponse<UifwRow>>(uifwFilePath);    // Load UIFW facts JSON and deserialize to strongly typed UifwRow objects
 var censusMuniRows = CsvLoader.Load(censusMuniFilePath, CensusMuniMapper.Map);   // Load and map census municipality CSV to strongly typed rows
 var censusProvRows = CsvLoader.Load(censusProvFilePath, CensusProvMapper.Map);   // Load and map census province CSV to strongly typed rows
-// TODO Elections: Add the elections deserialization here
+// Elections: load consolidated elections CSV if present
+List<ElectionsRow> electionsRows = new List<ElectionsRow>();
+if (File.Exists(electionsFilePath))
+{
+    electionsRows = CsvLoader.Load(electionsFilePath, ElectionsCSVMapper.Map);   // Load and map elections CSV to strongly typed rows
+}
+// TODO Elections: Add the elections deserialization here (DONE)
 
 // 2. Print some rows for verification purposes
 foreach (var row in uifwRows.Data.Take(2))      
@@ -64,7 +76,14 @@ foreach (var row in censusMuniRows.Take(2))
 foreach (var row in censusProvRows.Take(2))      // Print 5 of the rows for verification purposes
 {    Console.WriteLine($"CENSUS PROV: Province={row.ProvinceCode}, " + $"Name={row.Name}, " + $"Population={row.Population2022}");}
 
-// TODO Elections: Add the elections test print here
+if (electionsRows.Count > 0)
+{
+    foreach (var row in electionsRows.Take(2))
+    {
+        Console.WriteLine($"ELECTIONS: Municipality={row.MunicipalityCode}, " + $"Party={row.PartyName}, " + $"Votes={row.Votes}");
+    }
+}
+// TODO Elections: Add the elections test print here (DONE)
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
 Console.WriteLine("Census and UIFW loading & deserializing complete.");
@@ -77,7 +96,7 @@ Console.WriteLine("Building municipalities, provinces and nation with UIFW and C
 Console.ResetColor();
 
 // 1. Build Municipality aggregates from UIFW facts and enrich with Census data
-var municipalities = MunicipalityBuilder.BuildMunicipalities(uifwRows, censusMuniRows);
+var municipalities = MunicipalityBuilder.BuildMunicipalities(uifwRows, censusMuniRows, electionsRows);
 
 foreach (var m in municipalities.Take(3))
 {
@@ -90,7 +109,9 @@ foreach (var m in municipalities.Take(3))
         $"Irregular={m.Irregular}, " +
         $"Fruitless={m.Fruitless}, " +
         $"UIFW={m.Uifw}"
-        // TODO Elections: Add the print governing party here
+        +
+        $", GoverningParty={m.GoverningParty}"
+        // TODO Elections: Add the print governing party here (DONE)
     );
 }
 
@@ -99,7 +120,7 @@ Console.WriteLine($"Municipality building complete with {municipalities.Count} m
 Console.ResetColor(); 
 
 // 2. Build Province aggregates from Municipalities and enrich with Census data
-var provinces = ProvinceBuilder.BuildFromMunicipalities(municipalities, censusProvRows);
+var provinces = ProvinceBuilder.BuildFromMunicipalities(municipalities, censusProvRows, electionsRows);
 
 foreach (var p in provinces.Take(3))
 {
@@ -111,7 +132,9 @@ foreach (var p in provinces.Take(3))
         $"Irregular={p.Irregular}, " +
         $"Fruitless={p.Fruitless}, " +
         $"UIFW={p.Uifw}"
-        // TODO Elections: Add the print governing party here
+        +
+        $", GoverningParty={p.GoverningParty}"
+        // TODO Elections: Add the print governing party here (DONE)
     );
 }
 
@@ -119,7 +142,7 @@ Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
 Console.WriteLine($"Province building complete with {provinces.Count} provinces.");
 Console.ResetColor(); 
 
-var nation = NationBuilder.BuildFromProvinces(provinces);
+var nation = NationBuilder.BuildFromProvinces(provinces, electionsRows);
 
  Console.WriteLine(
         $"Name={nation.Name}, " +
@@ -128,7 +151,9 @@ var nation = NationBuilder.BuildFromProvinces(provinces);
         $"Irregular={nation.Irregular}, " +
         $"Fruitless={nation.Fruitless}, " +
         $"UIFW={nation.Uifw}"
-        // TODO Elections: Add the print governing party here
+        +
+        $", GoverningParty={nation.GoverningParty}"
+        // TODO Elections: Add the print governing party here (DONE)
     );
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
