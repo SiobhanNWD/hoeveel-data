@@ -15,7 +15,7 @@ public static class CsvSourceDownloader
     
         var csvData = await httpClient.GetStringAsync(url);     //Downloads the CSV file as a string from the given URL. 'await' pauses execution until the download completes
 
-        Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);      //Ensures the target folder (outputPath) exists, if not it throws DirectoryNotFoundException
+            Hoeveel.Aggregator.Utils.FileHelpers.EnsureDirectoryForFile(outputPath); // Call to ensure the directory exists
 
         File.WriteAllText(outputPath, csvData); //Writes the downloaded CSV string to disk at the given path
     }
@@ -33,7 +33,7 @@ public static class CsvSourceDownloader
             var stream = await httpClient.GetStreamAsync(url);  // GetStreamAsync is better for large files
 
             // Create the output directory if it doesn't exist
-            Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+                Hoeveel.Aggregator.Utils.FileHelpers.EnsureDirectoryForFile(outputPath); // Call to ensure the directory exists
 
             // Write the stream to the file
             using (var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))

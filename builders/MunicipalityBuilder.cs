@@ -1,5 +1,6 @@
 using Hoeveel.Aggregator.Models.Raw;     // TreasuryFactsResponse, UifwRow, CensusMuniRow
 using Hoeveel.Aggregator.Models.Stored;  // Municipality
+using Hoeveel.Aggregator.Mappers;       // ElectionsMapper
 
 namespace Hoeveel.Aggregator.Builders;
 
@@ -7,13 +8,16 @@ public static class MunicipalityBuilder
 {
     // ================== MUNICIPALITY PIPELINE ENTRY ==================
     // Creates municipality shells from UIFW data, then applies UIFW and Census data
-    public static List<Municipality> BuildMunicipalities(TreasuryFactsResponse<UifwRow> uifwFacts, List<CensusMuniRow> censusRows) //TODO Add List<ElectionsMuniRow> electionsMuniRows or something to input 
+    public static List<Municipality> BuildMunicipalities(TreasuryFactsResponse<UifwRow> uifwFacts, List<CensusMuniRow> censusRows, List<ElectionsRow>? electionsRows = null)
     {
         var municipalities = CreateMunicipalities(uifwFacts);   // Step 1: establish identity (Code only)
 
         ApplyUifwData(municipalities, uifwFacts);                // Step 2: apply financial aggregation
         ApplyCensusData(municipalities, censusRows);             // Step 3: apply population + province code
-        // TODO Elections: ApplyElectionsData(municipalities, electionsMuniRows);   // Step 4: apply elections data (governing party)
+        if (electionsRows != null && electionsRows.Count > 0)
+        {
+            ApplyElectionsData(municipalities, electionsRows);   // Step 4: apply elections data (governing party)
+        }
 
         CompareMunicipalityCodes(uifwFacts, censusRows);        // Optional: compare municipality codes between UIFW and Census for sanity check
 
@@ -91,9 +95,43 @@ public static class MunicipalityBuilder
         }
     }
 
-    // ================== STEP 3: APPLY ELECTIONS DATA ==================
-    // TODO Elections: Sample add elections data to set municipality.goveringParty
-    // public static void ApplyElectionsData(List<Municipality> municipalities, List<ElectionsMuniRow> electionsMuniRows)
+    // ================== STEP 4: APPLY ELECTIONS DATA ==================
+    // Aggregates election results to determine the governing party (highest vote count) for each municipality
+    public static void ApplyElectionsData(List<Municipality> municipalities, List<ElectionsRow> electionsRows)
+    {
+        if (electionsRows == null || electionsRows.Count == 0)
+            return;
+
+        // Aggregate votes by municipality and party
+        var electionsByMuniAndParty = electionsRows
+            .GroupBy(e => new { e.MunicipalityCode, e.PartyName })
+            .Select(g => new
+            {
+                MunicipalityCode = g.Key.MunicipalityCode,
+                PartyName = g.Key.PartyName,
+                TotalVotes = g.Sum(e => e.Votes)
+            })
+            .ToList();
+
+        // Determine the winning party per municipality
+        var winnersByMunicipality = electionsByMuniAndParty
+            .GroupBy(e => e.MunicipalityCode)
+            .Select(g => new
+            {
+                MunicipalityCode = g.Key,
+                WinningParty = g.OrderByDescending(e => e.TotalVotes).First().PartyName
+            })
+            .ToDictionary(w => w.MunicipalityCode, w => w.WinningParty);
+
+        // Apply governing party to each municipality
+        foreach (var municipality in municipalities)
+        {
+            if (winnersByMunicipality.TryGetValue(municipality.Code, out var partyName))
+            {
+                municipality.GoverningParty = partyName;
+            }
+        }
+    }
 
 
     // TODO: Figure out what to do with municipality codes that exist in UIFW but not Census, and vice versa. Log them for now and investigate later.

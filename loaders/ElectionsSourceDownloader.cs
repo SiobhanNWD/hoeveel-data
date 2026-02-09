@@ -71,11 +71,7 @@ public static class ElectionsSourceDownloader
         }
         
         // Ensure output directory exists
-        var directory = Path.GetDirectoryName(outputPath);
-        if (!string.IsNullOrEmpty(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
+        Hoeveel.Aggregator.Utils.FileHelpers.EnsureDirectoryForFile(outputPath);
         
         // Write consolidated CSV to disk
         WriteConsolidatedCsv(outputPath, allResults);

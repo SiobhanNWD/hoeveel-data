@@ -234,3 +234,141 @@ This is the primary financial aggregation level.
 - Separation of concerns:
     Raw Models → Builders → Stored Domain Models
 - The system is deterministic and reproducible per financial year
+
+
+===============================================================
+         Elections Integration (2021 Municipal Elections)
+===============================================================
+
+This section documents the integration of IEC (Independent Electoral Commission)
+2021 municipal election results to determine the governing party per municipality.
+
+## New Files Added
+
+### Loaders
+- **loaders/ElectionsSourceDownloader.cs** (306 lines)
+  - Downloads 2021 election results from all 9 SA provinces
+  - IEC URL pattern: `https://results.elections.org.za/home/LGEPublicReports/1091/Downloadable%20Party%20Results/{PROVINCE_CODE}.csv`
+  - Consolidates all provinces into single CSV file
+  - Province codes: EC, FS, GP, KN, NP, MP, NW, NC, WP
+  - Output: `data/raw/elections-2021-consolidated.csv` (65.6 MB, 1,084,734 records)
+
+### Models
+- **models/raw/ElectionsRow.cs**
+  - Represents single election result row from IEC CSV
+  - Properties: MunicipalityCode, MunicipalityName, ProvinceCode, PartyName, Votes, VotePercentage
+
+### Mappers
+- **mappers/ElectionsCSVMapper.cs**
+  - Maps consolidated elections CSV row to ElectionsRow object
+  - Used by CsvLoader for deserialization
+  
+- **mappers/ElectionsMapper.cs**
+  - Aggregates election results by municipality
+  - Determines governing party (highest vote count per municipality)
+  - Methods: `GetGoverningPartyByMunicipality()`, `GetDetailedGoverningPartyByMunicipality()`
+
+### Utilities
+- **utils/FileHelpers.cs**
+  - Centralized directory creation utility
+  - Method: `EnsureDirectoryForFile(string? filePath)`
+  - Used by CsvSourceDownloader and ElectionsSourceDownloader for safe directory handling
+
+## Modified Files
+
+### builders/MunicipalityBuilder.cs
+- Added `using Hoeveel.Aggregator.Mappers;`
+- Updated `BuildMunicipalities()` signature to accept optional `List<ElectionsRow>? electionsRows`
+- Implemented `ApplyElectionsData()` method:
+  - Groups election rows by municipality + party
+  - Sums votes per party per municipality
+  - Determines winning party (highest vote count)
+  - Sets `Municipality.GoverningParty` property
+- Updated call flow to include elections enrichment after census data
+
+### models/stored/Municipality.cs
+- Added `public string GoverningParty { get; set; } = "";`
+- Represents the winning party from 2021 elections
+
+### Program.cs
+- Load consolidated elections CSV if it exists
+- Pass election data through the full pipeline
+- Enhanced sanity checks to display Municipality name, ProvinceCode, and GoverningParty
+- Elections download is automatic (checked on startup)
+
+### loaders/CsvSourceDownloader.cs
+- Refactored directory creation to use `FileHelpers.EnsureDirectoryForFile()`
+- Safe handling of null/empty file paths
+
+### loaders/ElectionsSourceDownloader.cs
+- Uses `FileHelpers.EnsureDirectoryForFile()` for output directory creation
+
+## Integration Architecture
+
+**Download Flow:**
+```
+IEC Website (9 Provinces)
+    ↓
+ElectionsSourceDownloader.DownloadAndConsolidateAsync()
+    ↓
+data/raw/elections-2021-consolidated.csv (consolidated)
+```
+
+**Pipeline Flow:**
+```
+1. Load UIFW facts (JSON from Treasury API)
+2. Load Census municipality data (CSV)
+3. Load Elections data (CSV) — optional, gracefully skipped if missing
+4. Build Municipalities:
+   - Step 1: Create shells from UIFW codes
+   - Step 2: Apply UIFW financial aggregation
+   - Step 3: Apply Census enrichment (name, population, province code)
+   - Step 4: Apply Elections data (governing party per municipality)
+5. Build Provinces (pending: add elections aggregation)
+6. Build Nation (pending: add elections aggregation)
+```
+
+## Data Discovery
+
+IEC election results CSV structure (per province):
+```
+Province,Municipality,Ward,VotingDistrict,VotingStationName,RegisteredVoters,BallotType,SpoiltVotes,PartyName,TotalValidVotes,DateGenerated
+```
+
+Municipality codes in IEC CSV format: "FS161 - Letsemeng" (code extracted as "FS161")
+
+Consolidated CSV output structure:
+```
+MunicipalityCode,MunicipalityName,ProvinceCode,PartyName,Votes,VotePercentage
+```
+
+## Pending Work
+
+1. **Province Elections Aggregation:**
+   - Aggregate municipality governing parties to determine provincial winning party
+   - Update `ProvinceBuilder` to apply elections data
+   - Add `Province.GoverningParty` property
+
+2. **National Elections Aggregation:**
+   - Aggregate provincial governing parties for national result
+   - Update `NationBuilder` to apply elections data
+   - Add `Nation.GoverningParty` property
+
+3. **Configuration Integration:**
+   - Add elections source config to `sources.json` (elections-2021 entry)
+   - Add `Elections2021` property mapping to `SourceConfig.cs`
+   - Enable config-driven elections data loading
+
+4. **Testing & Validation:**
+   - Verify municipality code matching between UIFW, Census, and Elections datasets
+   - Validate aggregation logic with sample municipalities
+   - Cross-check with official IEC results
+
+## Notes
+
+- Elections data is optional; pipeline gracefully handles missing elections CSV
+- Governing party is determined by **highest vote count** per municipality (not percentage)
+- Vote percentages in consolidated CSV are set to 0m (not calculated from raw data)
+- All 9 provinces download successfully; no missing province data
+- Total of 1,084,734 election records consolidated into single file
+- ElectionsSourceDownloader implements flexible CSV parsing to handle IEC format variations

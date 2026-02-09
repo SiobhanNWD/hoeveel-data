@@ -22,5 +22,14 @@
     "url": "https://raw.githubusercontent.com/afrith/census-2022-muni-stats/refs/heads/main/person-indicators-muni.csv",
     "format": "csv",
     "_columns": "0=prov_code, 1=dc_code, 2=muni_code, 3=name, 4=area_km2, 5=miif_category, 6=government_transfers_subsidies_percent, 7=male_pop_2011, 8=female_pop_2011, 9=total_pop_2011, 10=school_attendance_ages_5_to_24_2011, 11=sex_ratio_2011, 12=male_pop_2022, 13=female_pop_2022, 14=total_pop_2022, 15=school_attendance_ages_5_to_24_2022, 16=sex_ratio_2022, 17=growth_rate_2011_to_2022"
+  },
+  "elections2021": {
+    "type": "csv-file",
+    "filePath": "data/raw/elections-2021-consolidated.csv",
+    "electionYear": 2021,
+    "source": "IEC (Independent Electoral Commission)",
+    "sourceUrl": "https://results.elections.org.za/home/LGEPublicReports/1091/Downloadable%20Party%20Results/",
+    "format": "csv",
+    "_columns": "0=MunicipalityCode, 1=MunicipalityName, 2=ProvinceCode, 3=PartyName, 4=Votes, 5=VotePercentage"
   }
 }
