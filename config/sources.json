@@ -31,5 +31,14 @@
     "sourceUrl": "https://results.elections.org.za/home/LGEPublicReports/1091/Downloadable%20Party%20Results/",
     "format": "csv",
     "_columns": "0=MunicipalityCode, 1=MunicipalityName, 2=ProvinceCode, 3=PartyName, 4=Votes, 5=VotePercentage"
-  }
+  },
+  "exportOptions": {
+        "filePath": "data/stored/hoeveel-data_2022.json",
+        "format": "json",
+        "jsonSettings": {
+            "writeIndented": true,
+            "useCamelCase": true,
+            "ignoreNulls": true
+        }
+    }
 }

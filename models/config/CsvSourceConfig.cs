@@ -1,7 +1,7 @@
 namespace Hoeveel.Aggregator.Models.Config
 {
     // This class contains the configuration for the Census sources
-    public class CensusSourceConfig
+    public class CsvSourceConfig
     {
         public string Type { get; set; } = "";      // e.g. "csv-url"
         public string FilePath { get; set; } = "";  // Path where the file should be saved

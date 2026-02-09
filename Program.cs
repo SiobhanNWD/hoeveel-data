@@ -3,31 +3,32 @@ using Hoeveel.Aggregator.Models.Raw;   // TreasuryFactsResponse, UifwRow, Census
 using Hoeveel.Aggregator.Models.Config;
 using Hoeveel.Aggregator.Mappers;     // CensusMuniMapper
 using Hoeveel.Aggregator.Builders;    // MunicipalityBuilder
+using Hoeveel.Aggregator.Exporters;   // JsonExportService
 
-//* ================== CENSUS AND UIFW DOWNLOAD ==================
+//* ================== CENSUS, UIFW  & ELECTIONS DOWNLOAD ==================
 Console.ForegroundColor = ConsoleColor.Blue;  // Pick your colour here
-Console.WriteLine("Downloading Census and UIFW files...");
+Console.WriteLine("Downloading Census, UIFW and Elections files...");
 Console.ResetColor();                          // Always reset afterwards
 
 // 1. Get the Census and UIFW source configuration from config/sources.json
 var sourceConfig = SourceConfigLoader.Load();   // Load all source configuration from config/sources.json
 
-var uifwSource = sourceConfig.Uifw;             // Extract UIFW-specific source configuration
-var uifwUrl = uifwSource.BuildUrl();           // Build the UIFW facts URL from config values
-var uifwFilePath = uifwSource.FilePath;      // Output file path defined in config
+var uifwSource = sourceConfig.Uifw;                     // Extract UIFW-specific source configuration
+var uifwUrl = uifwSource.BuildUrl();                    // Build the UIFW facts URL from config values
+var uifwFilePath = uifwSource.FilePath;                 // Output file path defined in config
 
-var censusMuniSource = sourceConfig.CensusMuni;             // Extract UIFW-specific source configuration
-var censusMuniUrl = censusMuniSource.Url;           // Build the UIFW facts URL from config values
-var censusMuniFilePath = censusMuniSource.FilePath;      // Output file path defined in config
+var censusMuniSource = sourceConfig.CensusMuni;         // Extract UIFW-specific source configuration
+var censusMuniUrl = censusMuniSource.Url;               // Build the UIFW facts URL from config values
+var censusMuniFilePath = censusMuniSource.FilePath;     // Output file path defined in config
 
-var censusProvSource = sourceConfig.CensusProv;             // Extract UIFW-specific source configuration
-var censusProvUrl = censusProvSource.Url;           // Build the UIFW facts URL from config values
-var censusProvFilePath = censusProvSource.FilePath;      // Output file path defined in config
+var censusProvSource = sourceConfig.CensusProv;         // Extract UIFW-specific source configuration
+var censusProvUrl = censusProvSource.Url;               // Build the UIFW facts URL from config values
+var censusProvFilePath = censusProvSource.FilePath;     // Output file path defined in config
 
-var electionsSource = sourceConfig.Elections;             // Extract Elections source configuration
-var electionsFilePath = electionsSource.FilePath;      // Output file path defined in config 
+var electionsSource = sourceConfig.Elections;           // Extract Elections source configuration
+var electionsFilePath = electionsSource.FilePath;       // Output file path defined in config 
 
-// 2. Download Census and UIFW files to disk
+// 2. Download Census, UIFW and Elections files to disk
 Console.WriteLine("Downloading uifw JSON...");
 await JsonSourceDownloader.DownloadAsync(uifwUrl, uifwFilePath);
 
@@ -42,29 +43,28 @@ if (!File.Exists(electionsFilePath))
 {
     await ElectionsSourceDownloader.DownloadAndConsolidateAsync(electionsFilePath);
 }
-// TODO Elections: Add the elections console print here (DONE)
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
-Console.WriteLine("Census and UIFW file downloads test complete.");
+Console.WriteLine("Census, UIFW and Elections file downloads test complete.");
 Console.ResetColor();                          // Always reset afterwards
 
 
-//* ================== CENSUS AND UIFW LOADING & DESERIALIZING  ==================
+//* ================== CENSUS, UIFW & ELECTIONS LOADING & DESERIALIZING  ==================
 Console.ForegroundColor = ConsoleColor.Blue;  // Pick your colour here
-Console.WriteLine("Loading and deserializing Census and UIFW files...");
+Console.WriteLine("Loading and deserializing Census, UIFW and Elections files...");
 Console.ResetColor();
 
 // 1. Load and deserialize UIFW & Census files into strongly typed rows
 var uifwRows = JsonLoader.Load<TreasuryFactsResponse<UifwRow>>(uifwFilePath);    // Load UIFW facts JSON and deserialize to strongly typed UifwRow objects
 var censusMuniRows = CsvLoader.Load(censusMuniFilePath, CensusMuniMapper.Map);   // Load and map census municipality CSV to strongly typed rows
 var censusProvRows = CsvLoader.Load(censusProvFilePath, CensusProvMapper.Map);   // Load and map census province CSV to strongly typed rows
+
 // Elections: load consolidated elections CSV if present
 List<ElectionsRow> electionsRows = new List<ElectionsRow>();
 if (File.Exists(electionsFilePath))
 {
     electionsRows = CsvLoader.Load(electionsFilePath, ElectionsCSVMapper.Map);   // Load and map elections CSV to strongly typed rows
 }
-// TODO Elections: Add the elections deserialization here (DONE)
 
 // 2. Print some rows for verification purposes
 foreach (var row in uifwRows.Data.Take(2))      
@@ -83,16 +83,15 @@ if (electionsRows.Count > 0)
         Console.WriteLine($"ELECTIONS: Municipality={row.MunicipalityCode}, " + $"Party={row.PartyName}, " + $"Votes={row.Votes}");
     }
 }
-// TODO Elections: Add the elections test print here (DONE)
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
-Console.WriteLine("Census and UIFW loading & deserializing complete.");
+Console.WriteLine("Census, UIFW and Elections loading & deserializing complete.");
 Console.ResetColor();                          // Always reset afterwards
 
 
-//* ================== BUILDING MUNICIPALITIES, PROVINCES & NATION WITH UIFW & CENSUS DATA  ==================
+//* ================== BUILDING MUNICIPALITIES, PROVINCES & NATION WITH UIFW, CENSUS & ELECTIONS DATA  ==================
 Console.ForegroundColor = ConsoleColor.Blue;  // Pick your colour here
-Console.WriteLine("Building municipalities, provinces and nation with UIFW and Census data...");
+Console.WriteLine("Building municipalities, provinces and nation with UIFW, Census and Elections data...");
 Console.ResetColor();
 
 // 1. Build Municipality aggregates from UIFW facts and enrich with Census data
@@ -108,10 +107,8 @@ foreach (var m in municipalities.Take(3))
         $"Unauthorised={m.Unauthorised}, " +
         $"Irregular={m.Irregular}, " +
         $"Fruitless={m.Fruitless}, " +
-        $"UIFW={m.Uifw}"
-        +
+        $"UIFW={m.Uifw}" +
         $", GoverningParty={m.GoverningParty}"
-        // TODO Elections: Add the print governing party here (DONE)
     );
 }
 
@@ -119,7 +116,7 @@ Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
 Console.WriteLine($"Municipality building complete with {municipalities.Count} municipalities.");
 Console.ResetColor(); 
 
-// 2. Build Province aggregates from Municipalities and enrich with Census data
+// 2. Build Province aggregates from Municipalities and enrich with Census and elections data
 var provinces = ProvinceBuilder.BuildFromMunicipalities(municipalities, censusProvRows, electionsRows);
 
 foreach (var p in provinces.Take(3))
@@ -131,10 +128,8 @@ foreach (var p in provinces.Take(3))
         $"Unauthorised={p.Unauthorised}, " +
         $"Irregular={p.Irregular}, " +
         $"Fruitless={p.Fruitless}, " +
-        $"UIFW={p.Uifw}"
-        +
+        $"UIFW={p.Uifw}" +
         $", GoverningParty={p.GoverningParty}"
-        // TODO Elections: Add the print governing party here (DONE)
     );
 }
 
@@ -150,12 +145,26 @@ var nation = NationBuilder.BuildFromProvinces(provinces, electionsRows);
         $"Unauthorised={nation.Unauthorised}, " +
         $"Irregular={nation.Irregular}, " +
         $"Fruitless={nation.Fruitless}, " +
-        $"UIFW={nation.Uifw}"
-        +
+        $"UIFW={nation.Uifw}" +
         $", GoverningParty={nation.GoverningParty}"
-        // TODO Elections: Add the print governing party here (DONE)
     );
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
 Console.WriteLine($"Nation building complete.");
 Console.ResetColor();     
+
+//* ================== EXPORTING STRUCTURED JSON OUTPUT ==================
+Console.ForegroundColor = ConsoleColor.Blue;
+Console.WriteLine("Exporting Nation JSON to disk...");
+Console.ResetColor();
+
+// 1. Define output path (per financial year)
+var outputPath = sourceConfig.ExportOptions.FilePath;   // Output file path defined in config for the final JSON export
+
+// 2. Export Nation object
+JsonExportService.ExportNation(outputPath, nation, sourceConfig.ExportOptions.JsonSettings);   // Exports the Nation object to JSON using the specified export options from config
+
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("JSON export complete.");
+Console.ResetColor();

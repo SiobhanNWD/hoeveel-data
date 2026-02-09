@@ -7,12 +7,12 @@ namespace Hoeveel.Aggregator.Models.Config;
     public class SourceConfig
     {
         public UifwSourceConfig Uifw { get; set; } = new();
-        public CensusSourceConfig CensusProv { get; set; } = new();
-        public CensusSourceConfig CensusMuni { get; set; } = new();
+        public CsvSourceConfig CensusProv { get; set; } = new();
+        public CsvSourceConfig CensusMuni { get; set; } = new();
 
         // Elections source configuration (config/sources.json -> "elections")
-        public CensusSourceConfig Elections { get; set; } = new();
-
+        public CsvSourceConfig Elections { get; set; } = new();
+        public ExportOptionsConfig ExportOptions { get; set; } = new();   // Export options configuration (config/sources.json -> "exportOptions")s
         
     }
 
