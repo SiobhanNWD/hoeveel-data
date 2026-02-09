@@ -9,7 +9,7 @@ public static class NationBuilder
     {
         return new Nation
         {
-            Provinces = provinces        // Nation totals are computed automatically via properties
+            Provinces = provinces        // Nation totals are computed automatically via properties, name is hardcoded
         };
     }
 }

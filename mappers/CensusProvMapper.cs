@@ -11,7 +11,7 @@ namespace Hoeveel.Aggregator.Mappers
             {
                 ProvinceCode = columns[0],             // columns[0] → prov_code
                 Name = columns[1],                     // columns[1] → name
-                Population2022 = int.Parse(columns[2]) // columns[2] → total_pop_2022
+                Population2022 = int.Parse(columns[10]) // columns[2] → total_pop_2022
             };
         }
     }

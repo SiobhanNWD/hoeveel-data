@@ -3,8 +3,8 @@ namespace Hoeveel.Aggregator.Models.Stored;
 public class Municipality
 {
     public string Code { get; set; } = "";         // Demarcation code (e.g. "BUF")
-    public string Name { get; set; } = "";         // Filled later
-    public string ProvinceCode { get; set; } = ""; // Filled later
+    public string Name { get; set; } = "";         
+    public string ProvinceCode { get; set; } = ""; 
 
     public int Population { get; set; }            // Population
 

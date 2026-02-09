@@ -3,7 +3,9 @@ namespace Hoeveel.Aggregator.Models.Stored;
 public class Province
 {
     public string Code { get; set; } = "";     // e.g. "WC", "GP"
-    public string Name { get; set; } = "";     // Filled later with Source Population
+    public string Name { get; set; } = "";     
+
+    public int Population { get; set; } = 0;   
 
     public List<Municipality> Municipalities { get; set; } = new();             // List of all municipalities belonging to this Province
 
