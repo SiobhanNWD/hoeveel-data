@@ -9,10 +9,10 @@ namespace Hoeveel.Aggregator.Mappers
         {
             return new CensusMuniRow
             {
-                ProvinceCode = columns[0],             // columns[0] → prov_code
-                MunicipalityCode = columns[1],         // columns[1] → muni_code
-                Name = columns[2],                     // columns[2] → name
-                Population2022 = int.Parse(columns[3]) // columns[3] → total_pop_2022
+                ProvinceCode = columns[0],              // columns[0] → prov_code
+                MunicipalityCode = columns[2],          // columns[2] → muni_code
+                Name = columns[3],                      // columns[3] → name
+                Population2022 = int.Parse(columns[14]) // columns[14] → total_pop_2022
             };
         }
     }

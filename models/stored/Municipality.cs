@@ -3,8 +3,8 @@ namespace Hoeveel.Aggregator.Models.Stored;
 public class Municipality
 {
     public string Code { get; set; } = "";         // Demarcation code (e.g. "BUF")
-    public string Name { get; set; } = "";         // Filled later
-    public string ProvinceCode { get; set; } = ""; // Filled later
+    public string Name { get; set; } = "";         
+    public string ProvinceCode { get; set; } = ""; 
 
     public int Population { get; set; }            // Population
 
@@ -13,11 +13,6 @@ public class Municipality
     public decimal Fruitless { get; set; }          // Fruitless and Wasteful Expenditure
     public decimal Uifw                             // Total UIFW for the year
         => Unauthorised + Irregular + Fruitless;
-    
-    /// <summary>
-    /// The governing party in this municipality (2021 election results)
-    /// Examples: "ANC", "DA", "EFF", etc.
-    /// Added: 2025-02-09
-    /// </summary>
-    public string GoverningParty { get; set; } = ""; // Governing party from 2021 elections
+
+    // TODO: public governingParty { get; set; } = "";          // Governing party (e.g. "ANC")
 }

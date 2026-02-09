@@ -1,11 +1,12 @@
 using Hoeveel.Aggregator.Models.Stored;
+using Hoeveel.Aggregator.Models.Raw;   // CensusProvRow
 
 namespace Hoeveel.Aggregator.Builders;
 
 public static class ProvinceBuilder
 {
     // Takes a list of Municipality objects and groups them into Province objects
-    public static List<Province> BuildFromMunicipalities(List<Municipality> municipalities)
+    public static List<Province> BuildFromMunicipalities(List<Municipality> municipalities, List<CensusProvRow> censusProvRows)
     {
         return municipalities
             .Where(m => !string.IsNullOrWhiteSpace(m.ProvinceCode))   // Ignore municipalities without a province (for now)
@@ -15,9 +16,13 @@ public static class ProvinceBuilder
                 var province = new Province                           // Create one Province per group
                 {
                     Code = group.Key,                                 // group.Key == ProvinceCode
-                    Municipalities = group.ToList()                   // Assign all municipalities belonging to this province
-                };
+                    Municipalities = group.ToList(),                   // Assign all municipalities belonging to this province
 
+                    // Census Data
+                    Name = censusProvRows.FirstOrDefault(p => p.ProvinceCode == group.Key)?.Name ?? "Unknown",  // Look up province name from Census data, fallback to "Unknown"
+                    Population = censusProvRows.FirstOrDefault(p => p.ProvinceCode == group.Key)?.Population2022 ?? group.Sum(m => m.Population), // Look up province population from Census data, fallback to sum of municipality populations   
+                };
+                // Console.WriteLine($"Census Province Population is {province.Population} and municipalities total population is {group.Sum(m => m.Population)}."); REMOVED as this has been verified to be correct
                 return province;                                      // UIFW totals are calculated via Province properties
             })
             .ToList();                                                 // Convert all provinces to a List

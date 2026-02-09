@@ -6,13 +6,15 @@ namespace Hoeveel.Aggregator.Builders;
 public static class MunicipalityBuilder
 {
     // ================== MUNICIPALITY PIPELINE ENTRY ==================
-    // Creates municipality shells, then applies UIFW and Census data
+    // Creates municipality shells from UIFW data, then applies UIFW and Census data
     public static List<Municipality> BuildMunicipalities(TreasuryFactsResponse<UifwRow> uifwFacts, List<CensusMuniRow> censusRows)
     {
         var municipalities = CreateMunicipalities(uifwFacts);   // Step 1: establish identity (Code only)
 
         ApplyUifwData(municipalities, uifwFacts);                // Step 2: apply financial aggregation
         ApplyCensusData(municipalities, censusRows);             // Step 3: apply population + province code
+
+        CompareMunicipalityCodes(uifwFacts, censusRows);        // Optional: compare municipality codes between UIFW and Census for sanity check
 
         return municipalities;                                   // Fully enriched municipalities
     }
@@ -87,4 +89,57 @@ public static class MunicipalityBuilder
             }
         }
     }
+
+
+    // TODO: Figure out what to do with municipality codes that exist in UIFW but not Census, and vice versa. Log them for now and investigate later.
+    public static void CompareMunicipalityCodes(
+    TreasuryFactsResponse<UifwRow> uifwFacts,
+    List<CensusMuniRow> censusRows)
+    {
+        // --- Extract distinct codes from UIFW ---
+        var uifwCodes = uifwFacts.Data
+            .Where(r => !string.IsNullOrWhiteSpace(r.DemarcationCode))
+            .Select(r => r.DemarcationCode.Trim().ToUpper())
+            .Distinct()
+            .ToHashSet();
+
+        // --- Extract distinct codes from Census ---
+        var censusCodes = censusRows
+            .Where(r => !string.IsNullOrWhiteSpace(r.MunicipalityCode))
+            .Select(r => r.MunicipalityCode.Trim().ToUpper())
+            .Distinct()
+            .ToHashSet();
+
+        // --- Calculate differences ---
+        var onlyInUifw = uifwCodes.Except(censusCodes).ToList();
+        var onlyInCensus = censusCodes.Except(uifwCodes).ToList();
+
+        // --- Output summary ---
+        Console.WriteLine("===== MUNICIPALITY DATA COMPARISON =====");
+        Console.WriteLine($"UIFW municipalities:   {uifwCodes.Count}");
+        Console.WriteLine($"Census municipalities: {censusCodes.Count}");
+        Console.WriteLine();
+
+        Console.WriteLine($"Only in UIFW:   {onlyInUifw.Count}");
+        Console.WriteLine($"Only in Census: {onlyInCensus.Count}");
+        Console.WriteLine();
+
+        if (onlyInUifw.Any())
+        {
+            Console.WriteLine("Codes only in UIFW:");
+            Console.WriteLine(string.Join(", ", onlyInUifw.OrderBy(x => x)));
+            Console.WriteLine();
+        }
+
+        if (onlyInCensus.Any())
+        {
+            Console.WriteLine("Codes only in Census:");
+            Console.WriteLine(string.Join(", ", onlyInCensus.OrderBy(x => x)));
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("========================================");
+    }
+
 }
+

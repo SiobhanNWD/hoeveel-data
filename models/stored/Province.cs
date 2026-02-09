@@ -3,7 +3,9 @@ namespace Hoeveel.Aggregator.Models.Stored;
 public class Province
 {
     public string Code { get; set; } = "";     // e.g. "WC", "GP"
-    public string Name { get; set; } = "";     // Filled later with Source Population
+    public string Name { get; set; } = "";     
+
+    public int Population { get; set; } = 0;   
 
     public List<Municipality> Municipalities { get; set; } = new();             // List of all municipalities belonging to this Province
 
@@ -11,4 +13,6 @@ public class Province
     public decimal Irregular    => Municipalities.Sum(m => m.Irregular);        // Calculates Sum of all the Municipalities' Irregular Amounts
     public decimal Fruitless    => Municipalities.Sum(m => m.Fruitless);        // Calculates Sum of all the Municipalities' Fruitless Amounts
     public decimal Uifw         => Municipalities.Sum(m => m.Uifw);             // Calculates Sum of all the Municipalities' Uifw Amounts (which should equal Sum(unauthorized + irregular + fruitless))
+
+    // TODO: public governingParty { get; set; } = "";          // Governing party (e.g. "ANC")
 }

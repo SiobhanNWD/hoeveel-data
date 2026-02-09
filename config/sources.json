@@ -1,8 +1,4 @@
 {
-  "_comment": "Configuration for data sources used in the Hoeveel aggregator pipeline. Last updated: 2025-02-09",
-  "_changelog": {
-    "2025-02-09": "Added 'elections-2021' source for IEC municipal election results (represents 2022 governing parties)"
-  },
   "uifw": {
     "type": "json-api",
     "filePath": "data/raw/uifw-facts_2022.json",
@@ -17,20 +13,14 @@
     "type": "csv-url",
     "filePath": "data/raw/census-province_2022.csv",
     "url": "https://raw.githubusercontent.com/afrith/census-2022-muni-stats/refs/heads/main/person-indicators-province.csv",
-    "format": "csv"
+    "format": "csv",
+    "_columns": "0=prov_code, 1=name, 2=area_km2, 3=male_pop_2011, 4=female_pop_2011, 5=total_pop_2011, 6=school_attendance_ages_5_to_24_2011, 7=sex_ratio_2011, 8=male_pop_2022, 9=female_pop_2022, 10=total_pop_2022, 11=school_attendance_ages_5_to_24_2022, 12=sex_ratio_2022, 13=growth_rate_2011_to_2022"
   },
   "censusMuni": {
     "type": "csv-url",
     "filePath": "data/raw/census-muni_2022.csv",
     "url": "https://raw.githubusercontent.com/afrith/census-2022-muni-stats/refs/heads/main/person-indicators-muni.csv",
-    "format": "csv"
-  },
-  "elections-2021": {
-    "_description": "2021 IEC Municipal Election Results (used as 2022 governing party data). Downloaded via ElectionsSourceDownloader.DownloadAndConsolidateAsync()",
-    "_notes": "The IEC election portal requires province-by-province selection. ElectionsSourceDownloader automates multi-province download and consolidation.",
-    "_added": "2025-02-09",
-    "type": "csv-file",
-    "filePath": "data/raw/elections-2021-consolidated.csv",
-    "format": "csv"
+    "format": "csv",
+    "_columns": "0=prov_code, 1=dc_code, 2=muni_code, 3=name, 4=area_km2, 5=miif_category, 6=government_transfers_subsidies_percent, 7=male_pop_2011, 8=female_pop_2011, 9=total_pop_2011, 10=school_attendance_ages_5_to_24_2011, 11=sex_ratio_2011, 12=male_pop_2022, 13=female_pop_2022, 14=total_pop_2022, 15=school_attendance_ages_5_to_24_2022, 16=sex_ratio_2022, 17=growth_rate_2011_to_2022"
   }
 }
