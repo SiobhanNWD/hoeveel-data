@@ -13,4 +13,6 @@ public class Municipality
     public decimal Fruitless { get; set; }          // Fruitless and Wasteful Expenditure
     public decimal Uifw                             // Total UIFW for the year
         => Unauthorised + Irregular + Fruitless;
+
+    // TODO: public governingParty { get; set; } = "";          // Governing party (e.g. "ANC")
 }

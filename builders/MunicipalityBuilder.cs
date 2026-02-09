@@ -90,6 +90,8 @@ public static class MunicipalityBuilder
         }
     }
 
+
+    // TODO: Figure out what to do with municipality codes that exist in UIFW but not Census, and vice versa. Log them for now and investigate later.
     public static void CompareMunicipalityCodes(
     TreasuryFactsResponse<UifwRow> uifwFacts,
     List<CensusMuniRow> censusRows)
