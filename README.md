@@ -28,57 +28,204 @@ Suggested:
 ===============================================================
                         File Structure
 ===============================================================
-Hoeveel.Aggregator/                                   **Main aggregation service for municipal finance data**
 
-├─ builders/                                          **Builds stored domain entities from raw data**
-│  ├─ MunicipalityBuilder.cs                          `Creates Municipality entities from UIFW & Census rows`
-│  ├─ ProvinceBuilder.cs                              `Builds Province entities from municipalities & uses Census data`
-│  └─ NationBuilder.cs                                `Builds the Nation entity by aggregating provinces`
+Hoeveel.Aggregator/                                  **Main aggregation service for municipal finance data**
+
+├─ .github/                                          **GitHub Actions workflows & repo config**
+│  └─ workflows/
+│     └─ *.yml                                       `CI / scheduled aggregation workflows`
 │
-├─ config/                                            **Runtime configuration files**
-│  └─ sources.json                                    `Defines external data sources (UIFW API, Census CSVs, file paths, years)`
+├─ builders/                                         **Builds stored domain entities from raw data**
+│  ├─ MunicipalityBuilder.cs                         `Creates Municipality entities from UIFW & Census rows`
+│  ├─ ProvinceBuilder.cs                             `Builds Province entities from municipalities & Census data`
+│  └─ NationBuilder.cs                               `Builds the Nation entity by aggregating provinces`
 │
-├─ data/                                              **Local data storage (not source code)**
-│  ├─ raw/                                            **Downloaded source data exactly as received**
-│  │  ├─ uifw-facts_2022.json                         `Raw UIFW expenditure facts from Treasury API`
-│  │  ├─ census_municipalities_2022.csv               `Raw Census municipality population dataset`
-│  │  └─ census_provinces_2022.csv                    `Raw Census province population dataset`
+├─ config/                                           **Runtime configuration files**
+│  └─ sources.json                                   `Defines external data sources (UIFW API, Census CSVs, years, paths)`
+│
+├─ data/                                             **Local data storage (non-code assets)**
+│  ├─ raw/                                           **Downloaded source data exactly as received**
+│  │  ├─ census-muni_2022.csv                         `Municipality population dataset (Census)`
+│  │  ├─ census-province_2022.csv                     `Province population dataset (Census)`
+│  │  ├─ elections-2021-consolidated.csv              `Municipal election results`
+│  │  ├─ person-indicators-province.csv               `Provincial demographic indicators`
+│  │  └─ uifw-facts_2022.json                          `Raw UIFW expenditure facts from Treasury API`
 │  │
-│  └─ stored/                                         **Future output location for processed domain data**
+│  └─ stored/                                        **Generated output data (committed by Actions)**
+│     └─ hoeveel-data_2022.json                       `Aggregated national/provincial/municipal dataset`
 │
-├─ loaders/                                           **Infrastructure for downloading and loading data**
-│  ├─ FileSourceDownloader.cs                         `Generic file downloader (supports JSON & CSV)`
-│  ├─ JsonLoader.cs                                   `Generic JSON deserializer from file to typed objects`
-│  ├─ CsvLoader.cs                                    `Generic CSV file loader mapping rows via delegate`
-│  └─ SourceConfigLoader.cs                           `Loads and parses config/sources.json into typed config`
+├─ deprecated/                                       **Legacy or superseded components (not active)**
 │
-├─ mappers/                                           **Row-to-model mappers for CSV-based datasets**
-│  ├─ CensusMuniMapper.cs                             `Maps municipality census CSV row to CensusMuniRow`
-│  └─ CensusProvMapper.cs                             `Maps province census CSV row to CensusProvRow`
+├─ exporters/                                        **Output writers / serializers**
+│  └─ JsonExportService.cs                            `Exports stored domain models to JSON`
 │
-├─ models/                                            **All strongly-typed data models**
-│  ├─ config/                                         `Typed representations of source configuration`
+├─ loaders/                                          **Infrastructure for downloading and loading data**
+│  ├─ CsvLoader.cs                                   `Generic CSV loader mapping rows via mapper`
+│  ├─ CsvSourceDownloader.cs                          `Downloads CSV sources defined in config`
+│  ├─ ElectionsSourceDownloader.cs                    `Election-specific source downloader`
+│  ├─ FileSourceDownloader.cs                         `Generic file downloader (JSON & CSV)`
+│  ├─ JsonLoader.cs                                  `Generic JSON deserializer to typed objects`
+│  ├─ JsonSourceDownloader.cs                         `Downloads JSON sources defined in config`
+│  └─ SourceConfigLoader.cs                           `Loads and parses config/sources.json`
+│
+├─ mappers/                                          **Row-to-model mappers for CSV-based datasets**
+│  ├─ CensusMuniMapper.cs                            `Maps municipality census CSV row`
+│  ├─ CensusProvMapper.cs                            `Maps province census CSV row`
+│  ├─ ElectionsCSVMapper.cs                          `Maps elections CSV rows`
+│  └─ ElectionsMapper.cs                             `Normalizes election data into domain models`
+│
+├─ models/                                           **All strongly-typed data models**
+│  ├─ config/                                        **Typed representations of source configuration**
+│  │  ├─ CsvSourceConfig.cs                           `CSV source configuration`
+│  │  ├─ ExportOptionsConfig.cs                       `Controls export behaviour & output paths`
+│  │  ├─ GithubUrlConverter.cs                        `Normalizes GitHub-hosted raw URLs`
 │  │  ├─ SourceConfig.cs                              `Root config model mapping sources.json`
-│  │  ├─ UifwSourceConfig.cs                          `UIFW-specific source config and URL builders`
-│  │  └─ CensusSourceConfig.cs                        `Census CSV source configuration`
+│  │  └─ UifwSourceConfig.cs                          `UIFW-specific source config and URL builders`
 │  │
-│  ├─ raw/                                            **Models that match external source data exactly**
-│  │  ├─ TreasuryFactsResponse.cs                     `Envelope for Treasury /facts API responses`
-│  │  ├─ UifwRow.cs                                   `Single UIFW fact row (municipality, item, amount)`
-│  │  ├─ CensusMuniRow.cs                             `Single municipality census row`
-│  │  └─ CensusProvRow.cs                             `Single province census row`
+│  ├─ raw/                                           **Models matching external source schemas exactly**
+│  │  ├─ CensusMuniRow.cs                             `Municipality census row`
+│  │  ├─ CensusProvRow.cs                             `Province census row`
+│  │  ├─ ElectionsRow.cs                              `Election results row`
+│  │  ├─ TreasuryFactsResponse.cs                     `Envelope for UIFW /facts API responses`
+│  │  └─ UifwRow.cs                                   `Single UIFW expenditure fact`
 │  │
-│  └─ stored/                                         **Internal stored domain entities used by the system**
-│     ├─ Municipality.cs                              `Municipality with aggregated UIFW values`
+│  └─ stored/                                        **Internal aggregated domain entities**
+│     ├─ Municipality.cs                              `Municipality with aggregated indicators`
 │     ├─ Province.cs                                  `Province aggregating municipalities`
-│     └─ Nation.cs                                    `National roll-up entity aggregating provinces`
+│     └─ Nation.cs                                    `National roll-up entity`
 │
-├─ Program.cs                                         `Execution entry point and current integration test harness`
-├─ README.md                                          `Project documentation and architecture overview`
-├─ Hoeveel.Aggregator.csproj                          `C# project definition`
-├─ Hoeveel.Aggregator.sln                             `Visual Studio solution file`
-├─ .gitignore                                         `Ignored files and folders`
-└─ obj/                                               **Build artefacts (generated)**
+├─ utils/                                            **Shared helpers & utilities**
+│
+├─ Program.cs                                        `Application entry point (aggregation orchestration)`
+├─ Hoeveel.Aggregator.csproj                          `C# project definition (.NET 8)`
+├─ Hoeveel.Aggregator.sln                             `Visual Studio solution`
+├─ .gitignore                                        `Ignored files and folders`
+├─ bin/                                               `Build outputs (generated)`
+└─ obj/                                               `Intermediate build artefacts (generated)`
+
+
+===============================================================
+                      System Overview
+===============================================================
+Hoeveel.Aggregator is a deterministic data‑aggregation service that converts official South African public datasets into a structured, hierarchical JSON representation of government finances and governance.
+
+The system consumes:
+- UIFW (Treasury) financial data
+- Census population data
+- IEC 2021 Municipal Election results
+and produces a single structured output per financial year.
+
+Aggregation hierarchy:
+**Municipality → Province → Nation**
+
+Raw source files are stored exactly as received. All aggregation and enrichment is performed programmatically.
+
+
+===============================================================
+                     Aggregation Logic
+===============================================================
+1. Load source configuration from config/sources.json
+2. Build source URLs and output file paths from configuration
+3. Download raw source files (UIFW JSON + Census CSVs + Elections CSV)
+   (**JsonSourceDownloader** / **FileSourceDownloader** / **ElectionsSourceDownloader**)
+4. Load and deserialize JSON/CSV into strongly typed rows using mappers
+   (**JsonLoader** / **CsvLoader**)
+   (**CensusProvMapper** / **CensusMuniMapper** / **ElectionsCSVMapper** / **ElectionsMapper**)
+   (**TrasuryFactsRespnse** / **UifwRow** / **CensusMuniRow** / **CensusProvRow** / **ElectionsRow**)
+5. Build domain entities from raw data
+   - Municipalities (UIFW + Census enrichment + Elections data)
+   - Provinces (aggregate municipalities + Census enrichment + Elections data)
+   - Nation (aggregate provinces + Elections data)
+   (**MunicipalityBuilder** / **ProvinceBuilder** / **NationBuilder**)
+6. Export structured domain JSON to data/stored/
+   (**JsonExportService**)
+7. Commit updated output to main (Nightly via GitHub Actions)
+
+
+===============================================================
+                     Data Entity Structure
+===============================================================
+This project aggregates official public finance (UIFW) and population data
+into a hierarchical structure that mirrors South Africa’s system of government.
+
+All data is generated programmatically from official public sources
+(Treasury API + Census CSV + `Elections` files) and stored as structured JSON (one file per financial year).
+
+Aggregation flow: `Municipality → Province → Nation`
+Raw source files are stored separately from generated outputs.
+
+# Nation
+Represents South Africa as a whole.
+Population and expenditure values are dynamically calculated from Provinces.
+
+# Properties:
+- `string` **name** – Country name (fixed: "South Africa")
+- `List<Province>` **provinces** – List of provincial entities
+- `decimal` **population** – Sum of provincial populations
+- `decimal` **unauthorised** – Sum of provincial unauthorised expenditure
+- `decimal` **irregular** – Sum of provincial irregular expenditure
+- `decimal` **fruitless** – Sum of provincial fruitless expenditure
+- `decimal` **uifw** – Sum of unauthorised + irregular + fruitless expenditure
+- `string` **governingParty** – The governing party of this Province (from Elections)
+
+# Notes:
+- All monetary values are calculated from Provinces (not stored independently)
+- Population is calculated from Provinces
+- No values are manually set at national level
+
+
+# Province
+Represents a South African province.
+Expenditure values are dynamically calculated from Municipalities.
+
+# Properties:
+- `string` **name** – Province name (e.g. Gauteng)
+- `string` **code** – Province code (e.g. GP)
+- `int` **population** – Total provincial population (from Census CSV)
+- `List<Municipality>` **municipalities** – Municipal entities belonging to this Province
+- `decimal` **unauthorised** – Sum of municipal unauthorised expenditure 
+- `decimal` **irregular** – Sum of municipal irregular expenditure
+- `decimal` **fruitless** – Sum of municipal fruitless expenditure
+- `decimal` **uifw** – Sum of municipal UIFW values
+- `string` **governingParty** – The governing party of this Province (from Elections)
+
+# Notes:
+- Expenditure is never stored directly; it is always calculated
+- Population is sourced from Census province CSV
+- Aggregation is dynamic via LINQ Sum()
+
+
+# Municipality
+Represents a local or metropolitan municipality.
+This is the primary financial aggregation level.
+
+# Properties:
+- `string` **code** – Demarcation code (e.g. JHB, BUF)
+- `string` **name** – Municipality name (from Census CSV)
+- `string` **provinceCode** – Province code (used for Province grouping)
+- `int` **population** – Municipal population (from Census CSV)
+- `decimal` **unauthorised** – Reported unauthorised expenditure (from UIFW API)
+- `decimal` **irregular** – Reported irregular expenditure (from UIFW API)
+- `decimal` **fruitless** – Reported fruitless & wasteful expenditure (from UIFW API)
+- `decimal` **uifw** – Calculated total (unauthorised + irregular + fruitless)
+- `string` **governingParty** – The governing party of this Province (from Elections)
+
+# Notes:
+- Municipalities are built only from UIFW data
+- Census data is used strictly for enrichment (name, population, province code)
+- UIFW is the primary dataset driving the system
+
+
+===============================================================
+                     Architectural Principles
+===============================================================
+- All monetary values are reported per financial year
+- No new financial data is created — values are derived strictly from official public sources
+- Aggregation is dynamic (no duplicated totals stored at multiple levels)
+- Population is sourced from official Census datasets
+- Separation of concerns:
+    Raw Models → Builders → Stored Domain Models
+- The system is deterministic and reproducible per financial year
 
 
 ===============================================================
@@ -108,132 +255,14 @@ For large or lengthy processes please group the steps with a comment and headers
                     Naming Conventions
 ===============================================================
 - Properties: Camel Case (e.g. public int WasteAmount {get; set;})
-- Methods: Camel Case (e.g. )
-- Scripts: Camel Case & if Source-specific, add the source name at the beginning (e.g. UifwSourceConfig.cs)
+- Methods: Camel Case (e.g. BuildMunicipalities())
+- Scripts: Camel Case 
+- Source-specific files are prefixed with the source name (e.g. UifwSourceConfig.cs, ElectionsSourceDownloader.cs)
 
 
-===============================================================
-                    Basic Logic (Planned)
-===============================================================
-0. Load source configuration from config/sources.json
-1. Build source URLs and output file paths from configuration
-2. Download raw source files (UIFW JSON + Census CSVs + `Elections`)
-   (**JsonSourceDownloader** / **FileSourceDownloader**)
-3. Load and deserialize JSON/CSV into strongly typed raw rows
-   (**JsonLoader** / **CsvLoader** + Mappers)
-4. Build domain entities from raw data
-   - Municipalities (UIFW + Census enrichment + `Elections data`)
-   - Provinces (aggregate municipalities + Census enrichment + `Elections data`)
-   - Nation (aggregate provinces + `Elections data`)
-   (**MunicipalityBuilder** / **ProvinceBuilder** / **NationBuilder**)
-5. Export structured domain JSON to data/stored/
-6. Commit updated output (Nightly via GitHub Actions)
 
 
-===============================================================
-                    Basic Logic (Current)
-===============================================================
-1. Load source configuration and sources from `sources.json`
-    - Build Treasury API URL from UIFW config
-    - Read Census CSV URLs from config
-2. Download:
-   - UIFW facts JSON (JsonSourceDownloader)
-   - Census municipality CSV (FileSourceDownloader)
-   - Census province CSV (FileSourceDownloader)
-3. Deserialize:
-   - UIFW JSON → TreasuryFactsResponse<UifwRow>
-   - Census municipality CSV → List<CensusMuniRow>
-   - Census province CSV → List<CensusProvRow>
-4. Build Municipalities from UIFW facts and enrich with Census data
-5. Build Provinces from Municipalities and enrich with Census data
-6. Build Nation from Provinces
-7. (Next) Export structured JSON per financial year
 
-
-===============================================================
-                     Data Entity Structure
-===============================================================
-This project aggregates official public finance (UIFW) and population data
-into a hierarchical structure that mirrors South Africa’s system of government.
-
-All data is generated programmatically from official public sources
-(Treasury API + Census CSV + `Elections` files) and stored as structured JSON (one file per financial year).
-
-Aggregation flow: `Municipality → Province → Nation`
-Raw source files are stored separately from generated outputs.
-
-# Nation
-Represents South Africa as a whole.
-Population and expenditure values are dynamically calculated from Provinces.
-
-# Properties:
-- `string` **name** – Country name (fixed: "South Africa")
-- `List<Province>` **provinces** – List of provincial entities
-- `decimal` **population** – Sum of provincial populations
-- `decimal` **unauthorised** – Sum of provincial unauthorised expenditure
-- `decimal` **irregular** – Sum of provincial irregular expenditure
-- `decimal` **fruitless** – Sum of provincial fruitless expenditure
-- `decimal` **uifw** – Sum of unauthorised + irregular + fruitless expenditure
-- `string` **governingParty** – The governing party of this Province (from `Elections`)
-
-# Notes:
-- All monetary values are calculated from Provinces (not stored independently)
-- Population is calculated from Provinces
-- No values are manually set at national level
-
-
-# Province
-Represents a South African province.
-Expenditure values are dynamically calculated from Municipalities.
-
-# Properties:
-- `string` **name** – Province name (e.g. Gauteng)
-- `string` **code** – Province code (e.g. GP)
-- `int` **population** – Total provincial population (from Census CSV)
-- `List<Municipality>` **municipalities** – Municipal entities belonging to this Province
-- `decimal` **unauthorised** – Sum of municipal unauthorised expenditure 
-- `decimal` **irregular** – Sum of municipal irregular expenditure
-- `decimal` **fruitless** – Sum of municipal fruitless expenditure
-- `decimal` **uifw** – Sum of municipal UIFW values
-- `string` **governingParty** – The governing party of this Province (from `Elections`)
-
-# Notes:
-- Expenditure is never stored directly; it is always calculated
-- Population is sourced from Census province CSV
-- Aggregation is dynamic via LINQ Sum()
-
-
-# Municipality
-Represents a local or metropolitan municipality.
-This is the primary financial aggregation level.
-
-# Properties:
-- `string` **code** – Demarcation code (e.g. JHB, BUF)
-- `string` **name** – Municipality name (from Census CSV)
-- `string` **provinceCode** – Province code (used for Province grouping)
-- `int` **population** – Municipal population (from Census CSV)
-- `decimal` **unauthorised** – Reported unauthorised expenditure (from UIFW API)
-- `decimal` **irregular** – Reported irregular expenditure (from UIFW API)
-- `decimal` **fruitless** – Reported fruitless & wasteful expenditure (from UIFW API)
-- `decimal` **uifw** – Calculated total (unauthorised + irregular + fruitless)
-- `string` **governingParty** – The governing party of this Province (from `Elections`)
-
-# Notes:
-- Municipalities are built only from UIFW data
-- Census data is used strictly for enrichment (name, population, province code)
-- UIFW is the primary dataset driving the system
-
-
-===============================================================
-                     Architectural Principles
-===============================================================
-- All monetary values are reported per financial year
-- No new financial data is created — values are derived strictly from official public sources
-- Aggregation is dynamic (no duplicated totals stored at multiple levels)
-- Population is sourced from official Census datasets
-- Separation of concerns:
-    Raw Models → Builders → Stored Domain Models
-- The system is deterministic and reproducible per financial year
 
 
 ===============================================================
