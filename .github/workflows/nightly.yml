@@ -2,8 +2,8 @@ name: Nightly Nation Aggregation
 
 on:
   schedule:
-    - cron: '0 1 * * *'
-  workflow_dispatch:
+    - cron: '0 1 * * *'   # Runs every night at 01:00 UTC
+  workflow_dispatch:      # Allows manual run from GitHub UI
 
 jobs:
   build-and-run:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true   # Required so we can push
 
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
@@ -26,3 +28,19 @@ jobs:
 
       - name: Run Aggregator
         run: dotnet run --configuration Release --no-build
+
+      # Commiting and pushing the json to main
+      - name: Commit and push generated JSON
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add data/stored/*.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S UTC")
+            git commit -m "Nightly data update - ${TIMESTAMP}"
+            git push origin main
+          fi
