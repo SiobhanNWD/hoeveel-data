@@ -17,7 +17,7 @@ namespace Hoeveel.Aggregator.Loaders
             if (string.IsNullOrEmpty(outputPath))
                 throw new ArgumentNullException(nameof(outputPath), "The output path cannot be null or empty.");
 
-            using var httpClient = new HttpClient();
+            using var httpClient = new HttpClient();    //creates an HTTP client for making web requests. 'using' ensures it's disposed correctly after use
 
             try
             {
@@ -32,8 +32,8 @@ namespace Hoeveel.Aggregator.Loaders
                 }
 
                 // Write the stream to the file
-                using var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write);
-                await stream.CopyToAsync(fileStream);
+                using var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write);   // Create or overwrite the file at the output path (empty file)
+                await stream.CopyToAsync(fileStream);                                                   // Copy the downloaded stream to the created file stream (aka save the downloaded stream to the file)
 
                 Console.WriteLine($"File downloaded successfully to: {outputPath}");
             }

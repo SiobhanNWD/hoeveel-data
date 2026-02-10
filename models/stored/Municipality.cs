@@ -4,7 +4,6 @@ public class Municipality
 {
     public string Code { get; set; } = "";         // Demarcation code (e.g. "BUF")
     public string Name { get; set; } = "";         
-    public string ProvinceCode { get; set; } = ""; 
 
     public int Population { get; set; }            // Population
 
@@ -15,4 +14,6 @@ public class Municipality
         => Unauthorised + Irregular + Fruitless;
 
     public string GoverningParty { get; set; } = "";          // Governing party (e.g. "ANC")
+
+    public string ProvinceCode { get; set; } = ""; 
 }

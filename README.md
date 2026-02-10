@@ -19,7 +19,7 @@ and is intended to be stored as structured JSON (one file per financial year).
 - GitHub Pull Requests (GitHub)
 - JSON Tools (Erik Lynd)
 - REST Client (Huachao Mao)
-# Please ensure you have .NET 8 SDK installed
+# Please ensure you have .NET 8.0 SDK installed
 
 Suggested:
 - Better Comments (Aaron Bond)

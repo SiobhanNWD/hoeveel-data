@@ -7,7 +7,8 @@
     "endpoint": "facts",
     "year": 2022,
     "pageSize": 10000,
-    "format": "json"
+    "format": "json",
+    "_fields" : "demarcation.code, financial_year_end.year, item.code, amount"
   },
   "censusProv": {
     "type": "csv-url",

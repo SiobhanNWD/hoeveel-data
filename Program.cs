@@ -30,7 +30,7 @@ var electionsFilePath = electionsSource.FilePath;       // Output file path defi
 
 // 2. Download Census, UIFW and Elections files to disk
 Console.WriteLine("Downloading uifw JSON...");
-await JsonSourceDownloader.DownloadAsync(uifwUrl, uifwFilePath);
+await FileSourceDownloader.DownloadAsync(uifwUrl, uifwFilePath);
 
 Console.WriteLine("Downloading census municipality CSV...");
 await FileSourceDownloader.DownloadAsync(censusMuniUrl, censusMuniFilePath);
@@ -58,13 +58,7 @@ Console.ResetColor();
 var uifwRows = JsonLoader.Load<TreasuryFactsResponse<UifwRow>>(uifwFilePath);    // Load UIFW facts JSON and deserialize to strongly typed UifwRow objects
 var censusMuniRows = CsvLoader.Load(censusMuniFilePath, CensusMuniMapper.Map);   // Load and map census municipality CSV to strongly typed rows
 var censusProvRows = CsvLoader.Load(censusProvFilePath, CensusProvMapper.Map);   // Load and map census province CSV to strongly typed rows
-
-// Elections: load consolidated elections CSV if present
-List<ElectionsRow> electionsRows = new List<ElectionsRow>();
-if (File.Exists(electionsFilePath))
-{
-    electionsRows = CsvLoader.Load(electionsFilePath, ElectionsCSVMapper.Map);   // Load and map elections CSV to strongly typed rows
-}
+var electionsRows = CsvLoader.Load(electionsFilePath, ElectionsCSVMapper.Map);   // Load and map elections CSV to strongly typed rows
 
 // 2. Print some rows for verification purposes
 foreach (var row in uifwRows.Data.Take(2))      

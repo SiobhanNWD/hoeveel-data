@@ -53,10 +53,10 @@ public static class MunicipalityBuilder
             if (string.IsNullOrWhiteSpace(row.DemarcationCode))          // Skip invalid rows
                 continue;
 
-            if (!municipalityByCode.TryGetValue(row.DemarcationCode, out var municipality))
+            if (!municipalityByCode.TryGetValue(row.DemarcationCode, out var municipality))     // Get the current row's code aka. var municipality = municipalityByCode[row.DemarcationCode]; but safer
                 continue;                                                // UIFW row without a matching municipality
 
-            switch (row.ItemCode?.ToLowerInvariant())                    // Aggregate by UIFW item type
+            switch (row.ItemCode?.ToLowerInvariant())                    // Aggregate by UIFW item type (ToLowerInvariant so that the casing in the source data doesn't affect the mapping)
             {
                 case "unauthorised":
                     municipality.Unauthorised += row.Amount;
@@ -79,14 +79,14 @@ public static class MunicipalityBuilder
     public static void ApplyCensusData(List<Municipality> municipalities, List<CensusMuniRow> censusRows)
     {
         var censusByMunicipalityCode = censusRows
-            .Where(r => !string.IsNullOrWhiteSpace(r.MunicipalityCode))
+            .Where(r => !string.IsNullOrWhiteSpace(r.MunicipalityCode))  // Ignore rows without a municipality code
             .GroupBy(r => r.MunicipalityCode)                            // Guard against duplicate CSV rows
-            .Select(g => g.First())
+            .Select(g => g.First())                                      // Select a single representative row per municipality
             .ToDictionary(r => r.MunicipalityCode);                      // Index census data by municipality code
 
         foreach (var municipality in municipalities)
         {
-            if (censusByMunicipalityCode.TryGetValue(municipality.Code, out var census))
+            if (censusByMunicipalityCode.TryGetValue(municipality.Code, out var census))    // Gets the census row for the current municipality code, if it exists
             {
                 municipality.Name = census.Name;                         // Municipality name
                 municipality.Population = census.Population2022;         // Population (2022 census)
