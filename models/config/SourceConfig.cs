@@ -11,7 +11,7 @@ namespace Hoeveel.Aggregator.Models.Config;
         public CsvSourceConfig CensusMuni { get; set; } = new();
 
         // Elections source configuration (config/sources.json -> "elections")
-        public CsvSourceConfig Elections { get; set; } = new();
+        public ElectionsSourceConfig Elections { get; set; } = new();
         public ExportOptionsConfig ExportOptions { get; set; } = new();   // Export options configuration (config/sources.json -> "exportOptions")s
         
     }

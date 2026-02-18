@@ -39,9 +39,17 @@ Console.WriteLine("Downloading census province CSV...");
 await FileSourceDownloader.DownloadAsync(censusProvUrl, censusProvFilePath);
 
 Console.WriteLine("Downloading consolidated elections CSV...");
-if (!File.Exists(electionsFilePath))
+//if (!File.Exists(electionsFilePath))
+//{
+    //await ElectionsSourceDownloader.DownloadAndConsolidateAsync(electionsFilePath);
+//}
+
+foreach (var province in electionsSource.Provinces)
 {
-    await ElectionsSourceDownloader.DownloadAndConsolidateAsync(electionsFilePath);
+    var provinceUrl = electionsSource.BuildProvinceUrl(province);
+    var provinceFilePath = Path.Combine(Path.GetDirectoryName(electionsFilePath) ?? "", $"elections-{province}.csv");
+    Console.WriteLine($"Downloading elections CSV for province {province}...");
+    await FileSourceDownloader.DownloadAsync(provinceUrl, provinceFilePath);
 }
 
 Console.ForegroundColor = ConsoleColor.Green;  // Pick your colour here
