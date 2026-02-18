@@ -59,15 +59,15 @@ public static class MunicipalityBuilder
             switch (row.ItemCode?.ToLowerInvariant())                    // Aggregate by UIFW item type (ToLowerInvariant so that the casing in the source data doesn't affect the mapping)
             {
                 case "unauthorised":
-                    municipality.Unauthorised += row.Amount;
+                    municipality.Unauthorised += row.Amount ?? 0m;;
                     break;
 
                 case "irregular":
-                    municipality.Irregular += row.Amount;
+                    municipality.Irregular += row.Amount ?? 0m;;
                     break;
 
                 case "fruitless":
-                    municipality.Fruitless += row.Amount;
+                    municipality.Fruitless += row.Amount ?? 0m;;
                     break;
             }
         }
@@ -89,7 +89,7 @@ public static class MunicipalityBuilder
             if (censusByMunicipalityCode.TryGetValue(municipality.Code, out var census))    // Gets the census row for the current municipality code, if it exists
             {
                 municipality.Name = census.Name;                         // Municipality name
-                municipality.Population = census.Population2022;         // Population (2022 census)
+                municipality.Population = census.Population;         // Population (2022 census)
                 municipality.ProvinceCode = census.ProvinceCode;         // Province code (critical for ProvinceBuilder)
             }
         }

@@ -20,7 +20,7 @@ public static class ProvinceBuilder
 
                     // Census Data
                     Name = censusProvRows.FirstOrDefault(p => p.ProvinceCode == group.Key)?.Name ?? "Unknown",  // Look up province name from Census data, fallback to "Unknown"
-                    Population = censusProvRows.FirstOrDefault(p => p.ProvinceCode == group.Key)?.Population2022 ?? group.Sum(m => m.Population), // Look up province population from Census data, fallback to sum of municipality populations   
+                    Population = censusProvRows.FirstOrDefault(p => p.ProvinceCode == group.Key)?.Population ?? group.Sum(m => m.Population), // Look up province population from Census data, fallback to sum of municipality populations   
                 };
                 // Console.WriteLine($"Census Province Population is {province.Population} and municipalities total population is {group.Sum(m => m.Population)}."); REMOVED as this has been verified to be correct
                 return province;                                      // UIFW totals are calculated via Province properties

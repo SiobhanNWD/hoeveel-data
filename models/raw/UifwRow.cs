@@ -14,7 +14,7 @@ public class UifwRow
     public string ItemCode { get; set; } = "";
 
     [JsonPropertyName("amount")]
-    public decimal Amount { get; set; }
+    public decimal? Amount { get; set; }
 }
 
 

@@ -42,5 +42,53 @@ namespace Hoeveel.Aggregator.Exporters
             // 5. Write JSON string to file
             File.WriteAllText(outputPath, json);        // Creates a file and writes the JSON string to it. If the file already exists, it will be overwritten with the new content.
         }
+
+        public static void ExportNation(string outputPath, Nation nation, JsonExportInfo exportInfo,JsonSettingsConfig settings)
+        {
+            if (nation == null)
+                throw new ArgumentNullException(nameof(nation), "Nation cannot be null.");
+
+            if (exportInfo == null)
+                throw new ArgumentNullException(nameof(exportInfo), "Export info cannot be null.");
+
+            if (string.IsNullOrWhiteSpace(outputPath))
+                throw new ArgumentNullException(nameof(outputPath), "Output path cannot be null or empty.");
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = settings.WriteIndented,
+                PropertyNamingPolicy = settings.UseCamelCase
+                    ? JsonNamingPolicy.CamelCase
+                    : null,
+                DefaultIgnoreCondition = settings.IgnoreNulls
+                    ? JsonIgnoreCondition.WhenWritingNull
+                    : JsonIgnoreCondition.Never
+            };
+
+            // 🔹 Wrap Nation + ExportInfo
+            var exportPackage = new ExportPackage
+            {
+                ExportInfo = exportInfo,
+                Nation = nation
+            };
+
+            var json = JsonSerializer.Serialize(exportPackage, options);
+
+            var directory = Path.GetDirectoryName(outputPath);
+            if (!string.IsNullOrEmpty(directory))
+                Directory.CreateDirectory(directory);
+
+            File.WriteAllText(outputPath, json);
+        }
+    }
+
+    public class ExportPackage
+    {
+        public required JsonExportInfo ExportInfo { get; set; }
+        public required Nation Nation { get; set; }
     }
 }
+
+    
+
+

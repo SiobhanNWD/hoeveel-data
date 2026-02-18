@@ -36,6 +36,39 @@ public static class ElectionsSourceDownloader
         "WP"   // Western Cape (WP per user's links)
     };
 
+
+    public static async Task ConsolidateElectionsDataAsync(string outputPath, List<string> electionsFiles)
+    {
+        var allResults = new List<ElectionsRow>();
+        
+        foreach (var file in electionsFiles)
+        {
+            var results = ParseCsvContent(File.ReadAllText(file), ""); // Province code is not needed here since it's already in the file name, but you could extract it if your file naming convention includes it
+            allResults.AddRange(results);
+        }
+        WriteConsolidatedCsv(outputPath, allResults);
+
+        foreach (var file in electionsFiles)
+        {
+            try
+            {
+                File.Delete(file);
+                Console.WriteLine($"Deleted temporary file: {file}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Warning: Could not delete temporary file {file}: {ex.Message}");
+            }
+        }
+    }
+
+
+
+
+
+
+
+
     /// <summary>
     /// Downloads election results for all provinces and consolidates them into a single CSV file.
     /// </summary>

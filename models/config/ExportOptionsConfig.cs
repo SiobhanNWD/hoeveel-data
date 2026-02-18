@@ -11,6 +11,11 @@ namespace Hoeveel.Aggregator.Models.Config;
     public string Format { get; set; } = "json";           // Export format (future-proofing)
 
     public JsonSettingsConfig JsonSettings { get; set; } = new();  // Nested JSON settings
+
+    public int[] Years {get; set;} = new[] {2011, 2022};    //available years to download (defaults to 2011 and 2022 if not specified in config)
+
+        public string BuildPath(int year)
+            => $"{FilePath}_{year}.{Format}";       // file path
 }
 
 public class JsonSettingsConfig

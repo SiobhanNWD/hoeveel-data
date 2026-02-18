@@ -12,7 +12,6 @@ namespace Hoeveel.Aggregator.Models.Config
         public string BaseUrl { get; set; } = "";   // e.g. https://results.elections.org.za/home/LGEPublicReports
         public int ReportId { get; set; } = 1091;    // Report id used in the public reports path
         public string ReportPath { get; set; } = "Downloadable%20Party%20Results";
-        public int ElectionYear { get; set; } = 2021;
 
         // List of province codes to iterate when downloading per-province reports (defaults to populated list if nothing overides it from sources.config)
         public string[] Provinces { get; set; } = new[]
@@ -30,11 +29,18 @@ namespace Hoeveel.Aggregator.Models.Config
 
         public string Format { get; set; } = "";    // Format (usually "csv")
 
+        public int[] Years {get; set;} = new[] {2021};    //available years to download 
+
+        public string BuildPath(int year, string province)
+            => $"{FilePath}-{province}_{year}.{Format}";       // file path
+
+        public string BuildPath(int year)
+            => $"{FilePath}_{year}.{Format}";                   // file path consolidated
 
         // Builds the province-specific download URL using the configured base and report mapping
         public string BuildProvinceUrl(string provinceCode, int? electionYear = null)
         {
-            int year = electionYear ?? ElectionYear;
+            int year = electionYear ?? Years.FirstOrDefault();  // Use the provided election year or default to the first year in the list
             int reportId = year switch
             {
                 2021 => 1091,

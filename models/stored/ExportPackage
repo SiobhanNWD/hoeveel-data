@@ -1,0 +1,7 @@
+namespace Hoeveel.Aggregator.Models.Stored;
+
+public class ExportPackage
+{
+    public JsonExportInfo ExportInfo { get; set; }
+    public Nation Nation { get; set; }
+}
