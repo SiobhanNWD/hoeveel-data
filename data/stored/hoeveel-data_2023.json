@@ -1,10 +1,10 @@
 {
   "exportInfo": {
-    "_Year": 2023,
-    "_UifwYear": 2023,
-    "_CensusMuniYear": 2022,
-    "_CensusProvYear": 2022,
-    "_ElectionsYear": 2021
+    "_year": 2023,
+    "_uifwYear": 2023,
+    "_censusMuniYear": 2022,
+    "_censusProvYear": 2022,
+    "_electionsYear": 2021
   },
   "nation": {
     "name": "South Africa",
