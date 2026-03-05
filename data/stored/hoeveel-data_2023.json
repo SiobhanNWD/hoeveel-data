@@ -9,10 +9,10 @@
   "nation": {
     "name": "South Africa",
     "population": 62027503,
-    "unauthorised": 20532342213,
-    "irregular": 23322228118,
-    "fruitless": 7155249732,
-    "uifw": 51009820063,
+    "unauthorised": 20814684248,
+    "irregular": 23351933064,
+    "fruitless": 7219496217,
+    "uifw": 51386113529,
     "governingParty": "AFRICAN NATIONAL CONGRESS",
     "provinces": [
       {
@@ -1288,10 +1288,10 @@
         "code": "FS",
         "name": "Free State",
         "population": 2964412,
-        "unauthorised": 4535786481,
+        "unauthorised": 4536304022,
         "irregular": 2068654329,
-        "fruitless": 1407939556,
-        "uifw": 8012380366,
+        "fruitless": 1408120598,
+        "uifw": 8013078949,
         "governingParty": "AFRICAN NATIONAL CONGRESS",
         "municipalities": [
           {
@@ -1485,10 +1485,10 @@
             "code": "FS205",
             "name": "Mafube",
             "population": 61150,
-            "unauthorised": 364031407,
+            "unauthorised": 364548948,
             "irregular": 25997405,
-            "fruitless": 62130847,
-            "uifw": 452159659,
+            "fruitless": 62311889,
+            "uifw": 452858242,
             "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
@@ -2260,10 +2260,10 @@
         "code": "NW",
         "name": "North West",
         "population": 3804548,
-        "unauthorised": 1803213360,
-        "irregular": 2575092944,
-        "fruitless": 567573578,
-        "uifw": 4945879882,
+        "unauthorised": 2085037854,
+        "irregular": 2604797890,
+        "fruitless": 631639021,
+        "uifw": 5321474765,
         "governingParty": "AFRICAN NATIONAL CONGRESS",
         "municipalities": [
           {
@@ -2358,10 +2358,10 @@
             "code": "NW384",
             "name": "Ditsobotla",
             "population": 164176,
-            "unauthorised": 0,
-            "irregular": 0,
-            "fruitless": 0,
-            "uifw": 0,
+            "unauthorised": 281824494,
+            "irregular": 29704946,
+            "fruitless": 64065443,
+            "uifw": 375594883,
             "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "NW"
           },
