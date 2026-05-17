@@ -685,7 +685,7 @@
         "irregular": 4945323941,
         "fruitless": 668581002,
         "uifw": 7825203209,
-        "governingParty": "AFRICAN NATIONAL CONGRESS",
+        "governingParty": "",
         "municipalities": [
           {
             "code": "EKU",
@@ -695,7 +695,7 @@
             "irregular": 413006296,
             "fruitless": 0,
             "uifw": 413006296,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -706,7 +706,7 @@
             "irregular": 365726097,
             "fruitless": 357567696,
             "uifw": 1725188480,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -717,7 +717,7 @@
             "irregular": 1833099,
             "fruitless": 26000,
             "uifw": 1859099,
-            "governingParty": "DEMOCRATIC ALLIANCE",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -728,7 +728,7 @@
             "irregular": 60811173,
             "fruitless": 73597,
             "uifw": 63932333,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -739,7 +739,7 @@
             "irregular": 221268325,
             "fruitless": 13585302,
             "uifw": 401156799,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -750,7 +750,7 @@
             "irregular": 12940386,
             "fruitless": 29156284,
             "uifw": 42096670,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -761,7 +761,7 @@
             "irregular": 176789449,
             "fruitless": 47821446,
             "uifw": 337639966,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -772,7 +772,7 @@
             "irregular": 816239000,
             "fruitless": 116977000,
             "uifw": 1413844000,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           },
           {
@@ -783,7 +783,7 @@
             "irregular": 2876710116,
             "fruitless": 103373677,
             "uifw": 3426479566,
-            "governingParty": "AFRICAN NATIONAL CONGRESS",
+            "governingParty": "",
             "provinceCode": "GP"
           }
         ]
@@ -1292,7 +1292,7 @@
         "irregular": 2156520412,
         "fruitless": 1132448293,
         "uifw": 8544835999,
-        "governingParty": "",
+        "governingParty": "AFRICAN NATIONAL CONGRESS",
         "municipalities": [
           {
             "code": "FS161",
@@ -1302,7 +1302,7 @@
             "irregular": 27592472,
             "fruitless": 2046204,
             "uifw": 148729968,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1313,7 +1313,7 @@
             "irregular": 29488979,
             "fruitless": 60497109,
             "uifw": 163165764,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1324,7 +1324,7 @@
             "irregular": 6053543,
             "fruitless": 9321508,
             "uifw": 71954361,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1335,7 +1335,7 @@
             "irregular": 1646923,
             "fruitless": 566934,
             "uifw": 15859116,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1346,7 +1346,7 @@
             "irregular": 26117188,
             "fruitless": 6817538,
             "uifw": 199098111,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1357,7 +1357,7 @@
             "irregular": 55673449,
             "fruitless": 2290006,
             "uifw": 62013278,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1368,7 +1368,7 @@
             "irregular": 307018306,
             "fruitless": 281881146,
             "uifw": 2127865364,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1379,7 +1379,7 @@
             "irregular": 28738022,
             "fruitless": 17491337,
             "uifw": 46229359,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1390,7 +1390,7 @@
             "irregular": 76934133,
             "fruitless": 2979591,
             "uifw": 696762167,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1401,7 +1401,7 @@
             "irregular": 53694085,
             "fruitless": 12611666,
             "uifw": 307393128,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1412,7 +1412,7 @@
             "irregular": 3026557,
             "fruitless": 26501996,
             "uifw": 218855912,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1423,7 +1423,7 @@
             "irregular": 316008746,
             "fruitless": 476590031,
             "uifw": 926948383,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1434,7 +1434,7 @@
             "irregular": 13578196,
             "fruitless": 2762402,
             "uifw": 102981664,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1445,7 +1445,7 @@
             "irregular": 1206100,
             "fruitless": 20198733,
             "uifw": 136134483,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1456,7 +1456,7 @@
             "irregular": 53911314,
             "fruitless": 11914659,
             "uifw": 178313724,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1467,7 +1467,7 @@
             "irregular": 138263346,
             "fruitless": 113530428,
             "uifw": 421108856,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1478,7 +1478,7 @@
             "irregular": 97488738,
             "fruitless": 22372735,
             "uifw": 197425901,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1489,7 +1489,7 @@
             "irregular": 77622621,
             "fruitless": 52536295,
             "uifw": 308038470,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           },
           {
@@ -1500,7 +1500,7 @@
             "irregular": 842457694,
             "fruitless": 9537975,
             "uifw": 2215957990,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "FS"
           }
         ]
@@ -1523,7 +1523,7 @@
             "irregular": 0,
             "fruitless": 23676,
             "uifw": 30683774,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1534,7 +1534,7 @@
             "irregular": 46458804,
             "fruitless": 1019720,
             "uifw": 122567129,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1545,7 +1545,7 @@
             "irregular": 7438134,
             "fruitless": 9975974,
             "uifw": 100440097,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1556,7 +1556,7 @@
             "irregular": 35504537,
             "fruitless": 44631,
             "uifw": 135208764,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1567,7 +1567,7 @@
             "irregular": 17231820,
             "fruitless": 661832,
             "uifw": 36558768,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1578,7 +1578,7 @@
             "irregular": 11539759,
             "fruitless": 6641456,
             "uifw": 18181215,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1589,7 +1589,7 @@
             "irregular": 29781336,
             "fruitless": 6656495,
             "uifw": 61236810,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1600,7 +1600,7 @@
             "irregular": 14204502,
             "fruitless": 67368,
             "uifw": 98678214,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1611,7 +1611,7 @@
             "irregular": 104918823,
             "fruitless": 1163285,
             "uifw": 116450971,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1622,7 +1622,7 @@
             "irregular": 25292789,
             "fruitless": 3415,
             "uifw": 25296204,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1633,7 +1633,7 @@
             "irregular": 0,
             "fruitless": 40916,
             "uifw": 8876304,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1644,7 +1644,7 @@
             "irregular": 3512495,
             "fruitless": 0,
             "uifw": 440592767,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1655,7 +1655,7 @@
             "irregular": 76439726,
             "fruitless": 44903,
             "uifw": 77589732,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1666,7 +1666,7 @@
             "irregular": 39495921,
             "fruitless": 8479630,
             "uifw": 47975551,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1677,7 +1677,7 @@
             "irregular": 114854274,
             "fruitless": 943897,
             "uifw": 115798171,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1688,7 +1688,7 @@
             "irregular": 11126964,
             "fruitless": 3822678,
             "uifw": 29204870,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1699,7 +1699,7 @@
             "irregular": 551211993,
             "fruitless": 6860886,
             "uifw": 789732261,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1710,7 +1710,7 @@
             "irregular": 22250957,
             "fruitless": 47533002,
             "uifw": 211192175,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1721,7 +1721,7 @@
             "irregular": 23647926,
             "fruitless": 114365,
             "uifw": 23762291,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1732,7 +1732,7 @@
             "irregular": 49832896,
             "fruitless": 595640,
             "uifw": 85878536,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1743,7 +1743,7 @@
             "irregular": 67928767,
             "fruitless": 103,
             "uifw": 128126242,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           },
           {
@@ -1754,7 +1754,7 @@
             "irregular": 148977824,
             "fruitless": 31874531,
             "uifw": 184939394,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "LP"
           }
         ]
@@ -1767,7 +1767,7 @@
         "irregular": 1591668152,
         "fruitless": 906532244,
         "uifw": 4638371816,
-        "governingParty": "",
+        "governingParty": "AFRICAN NATIONAL CONGRESS",
         "municipalities": [
           {
             "code": "MP301",
@@ -1777,7 +1777,7 @@
             "irregular": 39431149,
             "fruitless": 1381933,
             "uifw": 66243522,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1788,7 +1788,7 @@
             "irregular": 108243820,
             "fruitless": 29591642,
             "uifw": 187162372,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1799,7 +1799,7 @@
             "irregular": 32036822,
             "fruitless": 17238719,
             "uifw": 305517573,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1810,7 +1810,7 @@
             "irregular": 3724015,
             "fruitless": 5556,
             "uifw": 3729571,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1821,7 +1821,7 @@
             "irregular": 69656406,
             "fruitless": 120085776,
             "uifw": 189742182,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1832,7 +1832,7 @@
             "irregular": 16098442,
             "fruitless": 4973253,
             "uifw": 35436345,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1843,7 +1843,7 @@
             "irregular": 333827805,
             "fruitless": 200306516,
             "uifw": 1431197321,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1854,7 +1854,7 @@
             "irregular": 15528536,
             "fruitless": 22484299,
             "uifw": 38012835,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1865,7 +1865,7 @@
             "irregular": 88854893,
             "fruitless": 400420903,
             "uifw": 1008063439,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1876,7 +1876,7 @@
             "irregular": 22545342,
             "fruitless": 68982,
             "uifw": 51127219,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1887,7 +1887,7 @@
             "irregular": 61259916,
             "fruitless": 5034790,
             "uifw": 70042703,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1898,7 +1898,7 @@
             "irregular": 19072680,
             "fruitless": 2054808,
             "uifw": 21127488,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1909,7 +1909,7 @@
             "irregular": 165982942,
             "fruitless": 230357,
             "uifw": 166213299,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1920,7 +1920,7 @@
             "irregular": 41249113,
             "fruitless": 39453187,
             "uifw": 136176680,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1931,7 +1931,7 @@
             "irregular": 150390823,
             "fruitless": 230982,
             "uifw": 174690187,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1942,7 +1942,7 @@
             "irregular": 214830431,
             "fruitless": 24928682,
             "uifw": 239759113,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           },
           {
@@ -1953,7 +1953,7 @@
             "irregular": 208935017,
             "fruitless": 38041859,
             "uifw": 514129967,
-            "governingParty": "",
+            "governingParty": "AFRICAN NATIONAL CONGRESS",
             "provinceCode": "MP"
           }
         ]
